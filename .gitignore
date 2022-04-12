@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 #all items to be ignored while uploading to github
 venv
 tests
-.dbsqlite3
 
 # migrations
 **/migrations/**
@@ -10,5 +8,4 @@ tests
 !**/migrations/__init__.py
 =======
 venv
->>>>>>> gkapis
 *.pyc

@@ -1,0 +1,10 @@
+#all items to be ignored while uploading to github
+venv
+tests
+
+# migrations
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
+venv
+*.pyc

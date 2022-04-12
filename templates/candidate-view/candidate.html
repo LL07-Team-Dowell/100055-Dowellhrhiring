@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script>
+    window.addEventListener("DOMContentLoaded", function () {
+      const ApplicationName = document.getElementById("application-name")
+      const Input = document.querySelectorAll(".floatingInput")
+      const btn = document.querySelector(".button")
+      console.log("I AM LOADED")
+      console.log(ApplicationName)
+      btn.addEventListener("click", function (e) {
+          const applicationName = ApplicationName.options[ApplicationName.selectedIndex].value;
+          const Username = Input[0].value
+          const Email = Input[1].value
+          const FreelancePlatform = Input[2].value
+          const FreelanceUrl = Input[3].value
+          const Github = Input[4].value
+          alert(applicationName)
+          alert(Username)
+          alert(Email)
+          alert(FreelancePlatform)
+          alert(FreelanceUrl)
+          alert(Github)
+      })
+    });
+</script>
+
+<h1>CANDIDATE VIEW</h1>
+<h4>Application status</h4>
+<h4>logout</h4>
+<br>
+<form>
+     <label for="application-name">Application Name</label>
+     <select id="application-name">
+       <option value="UI Design">UI Design</option>
+       <option value="Python Programmer">Python Programmer</option>
+       <option value="Frontend">Frontend</option>
+       <option value="React Developer">React Developer</option>
+     </select>
+     <br><br>
+     <label>Username</label>
+     <input type="text" class="floatingInput" placeholder="username" name="username" required/>
+     <br><br>
+     <label>Email</label>
+     <input type="email" class="floatingInput" placeholder="email" name="email" required/>
+     <br><br>
+     <label>Fiverr Platform</label>
+     <input type="text" class="floatingInput" placeholder="Fiverr Platform" name="fiverr_platform" required/>
+     <br><br>
+     <label>Freelance Platform Url</label>
+     <input type="url" class="floatingInput" placeholder="Freelance Platform Url" name="freelance_url" required/>
+     <br><br>
+     <label>Github</label>
+     <input type="url" class="floatingInput" placeholder="Freelance Platform Url" name="freelance_url" required/>
+     <br><br>
+     <label for="story">Feedback</label>
+     <textarea id="story" name="story" rows="5" cols="33" required>
+
+     </textarea>
+     <br><br>
+     <button type="submit" class="button">Apply</button>
+</form>
+
+{% endblock content %}

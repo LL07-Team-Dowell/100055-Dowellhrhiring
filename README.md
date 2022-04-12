@@ -1,5 +1,5 @@
-<<<<<<< HEAD
 # 100055-Dowellhrhiring
-=======
-# 100055-DowellHRhiringrepo
->>>>>>> gkbackend
+
+### This is a hr System developed in Django for backend and React/React Native for wthe frontend
+
+### HEAD

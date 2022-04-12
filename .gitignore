@@ -8,3 +8,6 @@ tests
 !**/migrations/__init__.py
 venv
 *.pyc
+media
+static
+templates

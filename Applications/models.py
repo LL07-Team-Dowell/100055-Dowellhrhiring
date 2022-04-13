@@ -24,7 +24,7 @@ class JobApplication(models.Model):
     country = models.CharField(max_length=132, null=True)
     status = models.CharField(max_length=132, null=True, default="Pending")
     qualification = models.CharField(max_length=132, null=True)
-    General_Terms_Conditions = models.JSONField()
+    General_Terms_Conditions = models.JSONField(null=True)
     Technical_Specifications = models.JSONField()
     Payment_terms = models.JSONField()
     others = models.JSONField()
@@ -50,8 +50,10 @@ class Project(models.Model):
 
 class Meeting(models.Model):
     date_applied = models.DateTimeField()
-    applicant = models.ForeignKey(User, on_delete=models.CASCADE)
-    interviewer = models.ForeignKey(User, on_delete=models.CASCADE)
+    applicant = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="applicants")
+    interviewer = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="interviewers")
     job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)
     remarks = models.CharField(max_length=200)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)

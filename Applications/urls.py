@@ -1,15 +1,12 @@
 from django.urls import path
 
-from .views import ApplicationView, AddNewJobs, GetJobs, UpdateHRStatus, UpdateTMStatus, NetworkSpeedView
+from .views import application_view, add_new_job, get_jobs
 # from .views import UpdateaACStatus,
 urlpatterns = [
-    path('Apls/', ApplicationView.as_view(),
-         name='Apply for applications Applications'),
-    path('Jobs/', AddNewJobs.as_view(),
-         name='get or add Jobs by admin Applications'),
-    path('job/', GetJobs.as_view(), name="get a Users Submitted Jobs"),
-    path('updateHrStatus/', UpdateHRStatus.as_view(), name="Update status"),
-    path('updateTMStatus/', UpdateTMStatus.as_view(), name="Update status"),
-    #path('updateACStatus/' , UpdateaACStatus.as_view() , name = "Update status"),
-    path('speed/', NetworkSpeedView.as_view(), name='Network speed'),
+    path('Apis/application_view/', application_view,
+         name='application_view'),
+    path('Jobs/add_job/', add_new_job,
+         name='add_new_job'),
+    path('jobs/get_jobs', get_jobs, name="get_jobs"),
+    # path('update_status/', Update_status., name="Update_status")
 ]

@@ -1,97 +1,58 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accounts.models import User
 
 # Create your models here.
 
 
+class Job(models.Model):
+    title = models.CharField(max_length=100, null=False)
+    description = models.TextField(null=False)
+    specific_t_n_c = models.TextField()
+    status = models.CharField(
+        max_length=100, default="Not Receiving Applications")
+
+    def __str__(self):
+        return self.title
+
+
 class JobApplication(models.Model):
-    id = models.AutoField(primary_key=True)
+    applicant = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, null=True)
     feedBack = models.TextField(null=True)
+    freelancePlatform = models.CharField(max_length=132, null=True)
     freelancePlatformUrl = models.URLField(null=True)
-    applicationName = models.CharField(max_length=132)
+    country = models.CharField(max_length=132, null=True)
     status = models.CharField(max_length=132, null=True, default="Pending")
-    applicationlvl = models.CharField(max_length=132, null=True, default="HR")
-    country = models.CharField(max_length=132, null=True)
-    username = models.CharField(max_length=132, null=True)
     qualification = models.CharField(max_length=132, null=True)
-    freelancePlatform = models.CharField(max_length=132, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    others = models.JSONField()
-
-    def __str__(self):
-        return self.applicationName
-
-    class Meta:
-        verbose_name_plural = 'JobApplications'
-
-
-class InternetSpeed(models.Model):
-
-    #  user = models.ForeignKey(User , on_delete = models.CASCADE,null = True)
-    user = models.CharField(max_length=24, null=True)
-    download_speed = models.CharField(max_length=24, null=True)
-    upload_speed = models.CharField(max_length=24, null=True)
-
-    def __str__(self):
-        return self.user
-
-    class Meta:
-        verbose_name_plural = 'Internet Speeds'
-
-
-class NewJobsApplication(models.Model):
-    feedBack = models.TextField(null=True)
-    freelancePlatformUrl = models.URLField(null=True)
-    applicationName = models.CharField(max_length=132)
-    status = models.CharField(max_length=132, null=True)
-    country = models.CharField(max_length=132, null=True)
-    username = models.CharField(max_length=132, null=True)
-    qualification = models.CharField(max_length=132, null=True)
-    freelancePlatform = models.CharField(max_length=132, null=True)
-    others = models.JSONField()
     General_Terms_Conditions = models.JSONField()
     Technical_Specifications = models.JSONField()
     Payment_terms = models.JSONField()
-    Work_Flow = models.JSONField()
+    others = models.JSONField()
 
-    def __str__(self):
-        return self.applicationName
+    def str(self):
+        return f'{self.job}, {self.applicant}'
 
-    class Meta:
-        verbose_name_plural = 'New JobApplications'
+# class TMCandidateStatus(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     team_lead_status = models.CharField(max_length=132, null=True)
+#     team_lead_feedback = models.CharField(max_length=300, null=True)
+#     JobApplication = models.ForeignKey(
+#         JobApplication, on_delete=models.CASCADE, null=True)
 
-
-class HRCandidateStatus(models.Model):
-    id = models.AutoField(primary_key=True)
-    hr_Status = models.CharField(max_length=132, null=True)
-    hr_FeedBack = models.CharField(max_length=300, null=True)
-    JobApplication = models.ForeignKey(
-        JobApplication, on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return self.JobApplication.applicationName
-
-    class Meta:
-        verbose_name_plural = 'HR CandidateStatuses'
+#     class Meta:
+#         verbose_name_plural = 'TMCandidateStatuses'
 
 
-class TMCandidateStatus(models.Model):
-    id = models.AutoField(primary_key=True)
-    team_lead_status = models.CharField(max_length=132, null=True)
-    team_lead_feedback = models.CharField(max_length=300, null=True)
-    JobApplication = models.ForeignKey(
-        JobApplication, on_delete=models.CASCADE, null=True)
-
-    class Meta:
-        verbose_name_plural = 'TMCandidateStatuses'
+class Project(models.Model):
+    project_name = models.CharField(max_length=100)
+    project_leader = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
-class AccountsCandidateStatus(models.Model):
-    id = models.AutoField(primary_key=True)
-    accounts_status = models.CharField(max_length=132, null=True)
-    accounts_feedback = models.CharField(max_length=132, null=True)
-    JobApplication = models.ForeignKey(
-        JobApplication, on_delete=models.CASCADE, null=True)
-
-    class Meta:
-        verbose_name_plural = 'AccountsCandidateStatuses'
+class Meeting(models.Model):
+    date_applied = models.DateTimeField()
+    applicant = models.ForeignKey(User, on_delete=models.CASCADE)
+    interviewer = models.ForeignKey(User, on_delete=models.CASCADE)
+    job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)
+    remarks = models.CharField(max_length=200)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    status = models.CharField(max_length=50, default="Pending")

@@ -2,8 +2,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import JobApplication, NewJobsApplication, HRCandidateStatus, TMCandidateStatus, AccountsCandidateStatus, InternetSpeed
-from accounts.models import Profile
+from .models import JobApplication, NewJobsApplication, HRCandidateStatus, TMCandidateStatus, AccountsCandidateStatus
 from .serializers import JobApplicationSerializer, HrJobs, TMJobs, ACCJobs, NewJobApplicationSerializer
 from django.db.models import Q
 
@@ -138,47 +137,47 @@ class UpdateTMStatus(APIView):
         else:
             return Response({'res': "You do not have previllage to proccess this request'"})
 
-    def get(self, request):
-        user = request.user
+    # def get(self, request):
+    #     user = request.user
 
-        userProfile = Profile.objects.get(user=user)
-        hRCanidateStatus = JobApplication.objects.filter(
-            applicationName=userProfile.JobTitle)
-        proccessed_Jobs = HRCandidateStatus.objects.filter(
-            JobApplication__in=hRCanidateStatus)
-        jobs = proccessed_Jobs.filter(
-            ~Q(team_lead_status='selected'), ~Q(team_lead_status='rejected'))
-        data = TMJobs(jobs, many=True)
-        return Response({'res': data.data})
+    #     userProfile = Profile.objects.get(user=user)
+    #     hRCanidateStatus = JobApplication.objects.filter(
+    #         applicationName=userProfile.JobTitle)
+    #     proccessed_Jobs = HRCandidateStatus.objects.filter(
+    #         JobApplication__in=hRCanidateStatus)
+    #     jobs = proccessed_Jobs.filter(
+    #         ~Q(team_lead_status='selected'), ~Q(team_lead_status='rejected'))
+    #     data = TMJobs(jobs, many=True)
+    #     return Response({'res': data.data})
 
 
-class UpdateaACStatus(APIView):
+# class UpdateaACStatus(APIView):
 
-    permission_classes = [IsAuthenticated]
+#     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
-        user = request.user
-        data = request.data
+#     def post(self, request):
+#         user = request.user
+#         data = request.data
 
-        userProfile = Profile.objects.get(user=user)
+#         userProfile = Profile.objects.get(user=user)
 
-        if userProfile.position == "HR":
+#         if userProfile.position == "HR":
 
-            accountsCanidateStatus = AccountsCandidateStatus.objects.get(
-                JobApplication=data['id'])
-            accountsCanidateStatus.accounts_status = data['status']
-            accountsCanidateStatus.accounts_feedback = data['feedback']
-            accountsCanidateStatus.save()
-            return Response({'res': "Update"})
+#             accountsCanidateStatus = AccountsCandidateStatus.objects.get(
+#                 JobApplication=data['id'])
+#             accountsCanidateStatus.accounts_status = data['status']
+#             accountsCanidateStatus.accounts_feedback = data['feedback']
+#             accountsCanidateStatus.save()
+#             return Response({'res': "Update"})
 
-        else:
-            return Response({'res': "You do not have previllage to proccess this request'"})
+#         else:
+#             return Response({'res': "You do not have previllage to proccess this request'"})
 
-    def get(self, request):
-        applications = AccountsCandidateStatus.objects.filter(
-            ~Q(accounts_status='selected'), ~Q(accounts_status='rejected'))
-        data = ACCJobs(applications, many=True)
-        return Response({'res': data.data})
+#     def get(self, request):
+#         applications = AccountsCandidateStatus.objects.filter(
+#             ~Q(accounts_status='selected'), ~Q(accounts_status='rejected'))
+#         data = ACCJobs(applications, many=True)
+#         return Response({'res': data.data})
 
 
 class NetworkSpeedView(APIView):
@@ -208,10 +207,3 @@ class NetworkSpeedView(APIView):
         time_difference = end - start
         upload_speed = file_size / time_difference
         return round(upload_speed, 2)
-
-    def get(self, request):
-        user = request.user
-        intenet_speed = InternetSpeed(
-            user="user1", download_speed=f"{self.download_speed()}Mbps", upload_speed=f"{self.upload_speed()}Mbps")
-        intenet_speed.save()
-        return Response({'download_speed': f"{self.download_speed()}Mbps", 'upload_speed': f"{self.upload_speed()}Mbps"})

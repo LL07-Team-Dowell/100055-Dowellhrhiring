@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accounts.models import User
 
 # Create your models here.
 
@@ -23,20 +23,6 @@ class JobApplication(models.Model):
 
     class Meta:
         verbose_name_plural = 'JobApplications'
-
-
-class InternetSpeed(models.Model):
-
-    #  user = models.ForeignKey(User , on_delete = models.CASCADE,null = True)
-    user = models.CharField(max_length=24, null=True)
-    download_speed = models.CharField(max_length=24, null=True)
-    upload_speed = models.CharField(max_length=24, null=True)
-
-    def __str__(self):
-        return self.user
-
-    class Meta:
-        verbose_name_plural = 'Internet Speeds'
 
 
 class NewJobsApplication(models.Model):

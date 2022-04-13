@@ -2,7 +2,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import JobApplication, NewJobsApplication, HRCandidateStatus, TMCandidateStatus, AccountsCandidateStatus
+from .models import JobApplication, Job, Meeting, Project
 from .serializers import JobApplicationSerializer, HrJobs, TMJobs, ACCJobs, NewJobApplicationSerializer
 from django.db.models import Q
 
@@ -136,74 +136,3 @@ class UpdateTMStatus(APIView):
             return Response({'res': "Update"})
         else:
             return Response({'res': "You do not have previllage to proccess this request'"})
-
-    # def get(self, request):
-    #     user = request.user
-
-    #     userProfile = Profile.objects.get(user=user)
-    #     hRCanidateStatus = JobApplication.objects.filter(
-    #         applicationName=userProfile.JobTitle)
-    #     proccessed_Jobs = HRCandidateStatus.objects.filter(
-    #         JobApplication__in=hRCanidateStatus)
-    #     jobs = proccessed_Jobs.filter(
-    #         ~Q(team_lead_status='selected'), ~Q(team_lead_status='rejected'))
-    #     data = TMJobs(jobs, many=True)
-    #     return Response({'res': data.data})
-
-
-# class UpdateaACStatus(APIView):
-
-#     permission_classes = [IsAuthenticated]
-
-#     def post(self, request):
-#         user = request.user
-#         data = request.data
-
-#         userProfile = Profile.objects.get(user=user)
-
-#         if userProfile.position == "HR":
-
-#             accountsCanidateStatus = AccountsCandidateStatus.objects.get(
-#                 JobApplication=data['id'])
-#             accountsCanidateStatus.accounts_status = data['status']
-#             accountsCanidateStatus.accounts_feedback = data['feedback']
-#             accountsCanidateStatus.save()
-#             return Response({'res': "Update"})
-
-#         else:
-#             return Response({'res': "You do not have previllage to proccess this request'"})
-
-#     def get(self, request):
-#         applications = AccountsCandidateStatus.objects.filter(
-#             ~Q(accounts_status='selected'), ~Q(accounts_status='rejected'))
-#         data = ACCJobs(applications, many=True)
-#         return Response({'res': data.data})
-
-
-class NetworkSpeedView(APIView):
-    def download_speed(self):
-        url = "http://speedtest.ftp.otenet.gr/files/test100k.db"
-        start = time.time()
-        file = requests.get(url)
-        end = time.time()
-        time_difference = end - start
-        file_size = int(file.headers['Content-Length'])/(1000 * 100)
-        download_speed = file_size / time_difference
-        return round(download_speed, 2)
-
-    def upload_speed(self):
-        start = time.time()
-        dummy_file = os.path.join(settings.BASE_DIR, 'dummy.txt')
-        post_url = 'http://httpbin.org/post'
-        with open(dummy_file, 'wb') as dummy:
-            for i in range(1500):
-                dummy.write(str.encode(
-                    'This is a dummy text. Its sole propose is being uploaded to a server. '))
-            dummy.close()
-        files = {'file': open(dummy_file, 'rb')}
-        request = requests.post(post_url, data=files)
-        file_size = int(request.headers['Content-Length'])/(1000 * 1000)
-        end = time.time()
-        time_difference = end - start
-        upload_speed = file_size / time_difference
-        return round(upload_speed, 2)

@@ -31,8 +31,11 @@ def get_applications(request):
 @api_view(['POST'])
 def add_new_job(request):
     serializer = JobSerializer(data=request.data)
+    print(serializer)
     if serializer.is_valid():
         serializer.save()
+    else:
+        print("Error in validating all fields!")
 
     return Response(serializer.data)
 

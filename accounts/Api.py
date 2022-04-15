@@ -36,34 +36,3 @@ class AddUser(APIView):
             return Response({'Response': 'User saved Successfully'})
         except:
             return Response({'Response': 'User Already Exists'})
-
-
-class AddProfile(APIView):
-    def post(self, request):
-        data = request.data
-        image = data['image']  # code to be commented
-        status = data['status']
-        position = data['position']
-        profile = Profile(image=image, status=status, user=request.user,
-                          position=position)  # code to be commented
-        profile.save()
-        return Response({'Response': 'User Profile saved Successfully'})
-
-
-class UpdateStatus(APIView):
-    def post(self, request):
-        data = request.data
-        user = request.user
-        userProfile = Profile.objects.filter(user=user)
-
-        userProfile = userProfile[0]
-        if userProfile.position > 0:
-
-            applicantProfile = Profile.objects.filter(id=data['id'])[0]
-            applicantProfile.status = data['status']
-            applicantProfile.save()
-            ProfileData = Profile.objects.all()
-
-            serialliedProfileData = ProfileSerializer(ProfileData, many=True)
-            print(serialliedProfileData.data)
-            return Response(serialliedProfileData .data)

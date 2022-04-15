@@ -4,12 +4,24 @@ from accounts.models import User
 # Create your models here.
 
 
+class GeneralTerms(models.Model):
+    description = models.JSONField(null=True)
+
+    class Meta:
+        verbose_name_plural = 'General Terms'
+
+
 class Job(models.Model):
     title = models.CharField(max_length=100, null=False)
     description = models.TextField(null=False)
-    specific_t_n_c = models.TextField()
+    specific_terms = models.TextField()
     status = models.CharField(
         max_length=100, default="Not Receiving Applications")
+    general_terms = models.ForeignKey(GeneralTerms, on_delete=models.CASCADE)
+    qualification = models.CharField(max_length=132, null=True)
+    Technical_Specifications = models.JSONField()
+    Payment_terms = models.JSONField()
+    others = models.JSONField()
 
     def __str__(self):
         return self.title
@@ -23,24 +35,10 @@ class JobApplication(models.Model):
     freelancePlatformUrl = models.URLField(null=True)
     country = models.CharField(max_length=132, null=True)
     status = models.CharField(max_length=132, null=True, default="Pending")
-    qualification = models.CharField(max_length=132, null=True)
-    General_Terms_Conditions = models.JSONField(null=True)
-    Technical_Specifications = models.JSONField()
-    Payment_terms = models.JSONField()
     others = models.JSONField()
 
     def str(self):
         return f'{self.job}, {self.applicant}'
-
-# class TMCandidateStatus(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     team_lead_status = models.CharField(max_length=132, null=True)
-#     team_lead_feedback = models.CharField(max_length=300, null=True)
-#     JobApplication = models.ForeignKey(
-#         JobApplication, on_delete=models.CASCADE, null=True)
-
-#     class Meta:
-#         verbose_name_plural = 'TMCandidateStatuses'
 
 
 class Project(models.Model):

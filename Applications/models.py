@@ -37,6 +37,9 @@ class JobApplication(models.Model):
     status = models.CharField(max_length=132, null=True, default="Pending")
     others = models.JSONField()
 
+    class Meta:
+        verbose_name_plural = 'Job Applications'
+
     def str(self):
         return f'{self.job}, {self.applicant}'
 

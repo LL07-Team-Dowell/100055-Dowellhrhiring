@@ -10,8 +10,8 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, null=True)
     country = models.CharField(max_length=132, null=True)
     bio = models.TextField(null=True)
-    # default="avatar.svg") to be uncommented after setting up a default image
     avatar = models.ImageField(null=True)
+    # default="avatar.svg") to be uncommented after setting up a default image
     JobTitle = models.CharField(max_length=132, null=True)
     position = models.CharField(max_length=132, null=True)
     is_hr = models.BooleanField(default=False, null=True)

@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from .models import Task
+# import json
+
 
 class TaskSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Task
-
-        fields = ['user', 'date','task', 'status' ]
+        fields = '__all__'

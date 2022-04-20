@@ -1,9 +1,9 @@
-# Create your views here.
-from rest_framework.views import APIView
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import JobApplication, Job, Meeting, Project
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
+from .serializers import MeetingSerializer, ProjectSerializer
 from rest_framework.decorators import api_view
 
 
@@ -34,10 +34,8 @@ def add_new_job(request):
     print(serializer)
     if serializer.is_valid():
         serializer.save()
-    else:
-        print("Error in validating all fields!")
-
-    return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def candindateview(request):
@@ -69,3 +67,33 @@ def delete_job(request, pk):
     job = Job.objects.get(id=pk)
     job.delete()
     return Response("Job successfully deleted")
+
+
+@api_view(['GET', 'POST'])
+def meeting(request):
+    if request.method == 'GET':
+        meetings = Meeting.objects.all()
+        serializer = MeetingSerializer(meetings, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = MeetingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'POST'])
+def project(request):
+    if request.method == 'GET':
+        projects = Project.objects.all()
+        serializer = ProjectSerializer(projects, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = ProjectSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

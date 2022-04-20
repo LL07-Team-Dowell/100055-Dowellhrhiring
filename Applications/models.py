@@ -1,15 +1,6 @@
 from django.db import models
 from accounts.models import User
-
 # Create your models here.
-
-
-class GeneralTerms(models.Model):
-    description = models.JSONField(null=True)
-
-    class Meta:
-        verbose_name_plural = 'General Terms'
-
 
 class Job(models.Model):
     title = models.CharField(max_length=100, null=False)
@@ -17,7 +8,7 @@ class Job(models.Model):
     specific_terms = models.TextField()
     status = models.CharField(
         max_length=100, default="Not Receiving Applications")
-    general_terms = models.ForeignKey(GeneralTerms, on_delete=models.CASCADE)
+    general_terms = models.JSONField(null=True)
     qualification = models.CharField(max_length=132, null=True)
     Technical_Specifications = models.JSONField()
     Payment_terms = models.JSONField()

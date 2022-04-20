@@ -18,8 +18,12 @@ class Job(models.Model):
     title = models.CharField(max_length=100, null=False)
     description = models.TextField(null=False)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    CHOICES = (
+        ('Not Receiving Applications', 'Not Receiving Applications'),
+        ('Receiving Applications', 'Receiving Applications'),
+    )
     status = models.CharField(
-        max_length=100, default="Not Receiving Applications")
+        max_length=100, choices=CHOICES, default="Not Receiving Applications")
     general_terms = models.JSONField(null=True)
     qualification = models.CharField(max_length=132, null=True)
     Technical_Specifications = models.JSONField()
@@ -39,8 +43,7 @@ class JobApplication(models.Model):
     freelancePlatform = models.CharField(max_length=132, null=True)
     freelancePlatformUrl = models.URLField(null=True)
     country = models.CharField(max_length=132, null=True)
-    remarks_hr = models.CharField(max_length=500, null=True)
-    remarks_tl = models.CharField(max_length=500, null=True)
+    hr_remarks = models.CharField(max_length=500, null=True)
     status = models.CharField(max_length=132, null=True, default="Pending")
     others = models.JSONField()
     created = models.DateTimeField(auto_now_add=True)
@@ -63,5 +66,21 @@ class Meeting(models.Model):
     remarks = models.CharField(max_length=200)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     status = models.CharField(max_length=50, default="Pending")
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+
+class FreelancersAndInterns(models.Model):
+
+    freelancer = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="interns_and_freelancers")
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    hr_remarks = models.CharField(max_length=500, null=True)
+    tl_remarks = models.CharField(max_length=500, null=True)
+    CHOICES = (
+        ('Rehire', 'Rehire'),
+        ('Reject', 'Reject'),
+    )
+    status = models.CharField(max_length=70, choices=CHOICES, default="Rehire")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

@@ -11,7 +11,7 @@ class Project(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.project_name, self.project_leader
+        return f'{self.project_name}-{self.project_leader}'
 
 
 class Job(models.Model):
@@ -52,8 +52,8 @@ class JobApplication(models.Model):
     class Meta:
         verbose_name_plural = 'Job Applications'
 
-    def str(self):
-        return f'{self.job}, {self.applicant}'
+    def __str__(self):
+        return f'{self.job}-{self.applicant}'
 
 
 class Meeting(models.Model):
@@ -68,6 +68,9 @@ class Meeting(models.Model):
     status = models.CharField(max_length=50, default="Pending")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.applicant}-{self.interviewer}'
 
 
 class FreelancersAndInterns(models.Model):
@@ -84,6 +87,9 @@ class FreelancersAndInterns(models.Model):
     status = models.CharField(max_length=70, choices=CHOICES, default="Rehire")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.freelancer.username}-{self.project}'
 
     class Meta:
         verbose_name_plural = 'Freelancers And Interns'

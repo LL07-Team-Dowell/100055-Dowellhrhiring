@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<style>
+  table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+</style>
+</head>
+<br>
+
+  <h3>ADD TASK</h3>
+
+  <div class="container">
+    <form action id="addTask">
+      <label for="fname">USER ID</label>
+      <input type="text" id="user" name="firstname" placeholder="Your ID..">
+      
+  
+      <label for="lname">TASK</label>
+      <textarea id="task" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+  
+      
+
+  
+      <label for="subject">STATUS</label>
+      <input type="text" id="status" name="job status" placeholder="Your name..">
+  
+      <button type="submit">ADD TASK</button>
+    </form>
+  </div>
+<br/><br/><br/>
+
+
+
+
+  <h3>GET TASK</h3>
+
+
+
+
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th> USER ID</th>
+    <th>TASK</th>
+    <th>STATUS</th>
+  </tr>
+  <tbody id="divBody">
+
+</tbody>
+</table>
+
+<script>
+    
+
+
+
+    
+$(document).on('submit', '#addTask', function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            dataType: 'json',
+
+            url:'https://100055.pythonanywhere.com/api/tasks/add_new_task/',
+
+
+            data:{
+               user : $('#user').val(),
+               task : $('#task').val(),
+               Status : $('#status').val(),
+                
+            },
+            error: function (xhr, status, error) {
+              
+
+              var err_msg = ''
+              for (var prop in xhr.responseJSON) {
+                  err_msg += prop + ': ' + xhr.responseJSON[prop] + '\n';
+              }
+
+              alert(err_msg);
+              },
+              
+            success:function(){
+                alert("job saved")
+
+            }
+        })
+    })   
+
+
+    $(document).ready(function () {
+            ViewTask();
+        });
+
+    function ViewTask() {
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: "https://100055.pythonanywhere.com/api/tasks/view_tasks/", success: function (result) {
+                   
+                    var totalCount = result.length;
+                    var structureDiv = "";
+                    for (let i = 0; i < totalCount; i++) {
+                        structureDiv += "<tr>" +
+                            "     <td>" + result[i].id + "</td>" +
+                            "      <td>" + result[i].user+ "</td>" +
+                            "             <td>" + result[i].task + "</td>" +
+                            "               <td>" + result[i].status + "</td>" +
+                            
+                            "           </tr>";
+                    }
+
+                    $("#divBody").html(structureDiv);
+              
+                }
+            });
+
+        }
+
+</script>
+</body>
+</html>

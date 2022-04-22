@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
-from .serializers import MeetingSerializer, ProjectSerializer, RehiredCandidatesSerializer
+from .serializers import MeetingSerializer, ProjectSerializer, RehiredCandidateSerializer
 from rest_framework.decorators import api_view
 
 
@@ -109,18 +109,15 @@ def project(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-RehiredCandidatesSerializer
-
-
 @api_view(['GET', 'POST'])
 def project(request):
     if request.method == 'GET':
-        projects = Project.objects.all()
-        serializer = ProjectSerializer(projects, many=True)
+        rehired_canidates = RehiredCandidate.objects.all()
+        serializer = RehiredCandidateSerializer(rehired_canidates, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = ProjectSerializer(data=request.data)
+        serializer = RehiredCandidateSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -95,7 +95,7 @@ class FreelancersAndInterns(models.Model):
         verbose_name_plural = 'Freelancers And Interns'
 
 
-class RehiredCandidates(models.Model):
+class RehiredCandidate(models.Model):
     freelancer = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="rehired_freelancers")
     job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)

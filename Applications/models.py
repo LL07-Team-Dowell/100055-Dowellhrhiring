@@ -112,7 +112,7 @@ class RehiredCandidate(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.freelancer.username}-{self.project}'
+        return f'{self.freelancer.freelancer}-{self.project}'
 
     class Meta:
         verbose_name_plural = 'Rehired Freelancers'

@@ -112,7 +112,30 @@ class RehiredCandidate(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.freelancer.username}-{self.project}'
+        return f'{self.freelancer.freelancer}-{self.project}'
 
     class Meta:
         verbose_name_plural = 'Rehired Freelancers'
+
+
+class RejectedCandidate(models.Model):
+    freelancer = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="rejected_freelancers")
+    job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    tl_remarks = models.CharField(max_length=500, null=True)
+    CHOICES = (
+        ('Rehire', 'Rehire'),
+        ('Reject', 'Reject'),
+        ('Pay', 'Pay'),
+    )
+    teamlead_options = models.CharField(
+        max_length=70, choices=CHOICES, default="Reject")
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.freelancer.freelancer}-{self.project}'
+
+    class Meta:
+        verbose_name_plural = 'Rejected Freelancers'

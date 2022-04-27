@@ -1,9 +1,10 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import JobApplication, Job, Meeting, Project, RehiredCandidate
+from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
 from .serializers import MeetingSerializer, ProjectSerializer, RehiredCandidateSerializer
+from .serializers import RejectedCandidateSerializer
 from rest_framework.decorators import api_view
 
 
@@ -110,14 +111,30 @@ def project(request):
 
 
 @api_view(['GET', 'POST'])
-def project(request):
+def rehired_candidate(request):
     if request.method == 'GET':
-        rehired_canidates = RehiredCandidate.objects.all()
-        serializer = RehiredCandidateSerializer(rehired_canidates, many=True)
+        rehired_candidates = RehiredCandidate.objects.all()
+        serializer = RehiredCandidateSerializer(rehired_candidates, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
         serializer = RehiredCandidateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'POST'])
+def rejected_candidate(request):
+    if request.method == 'GET':
+        rejected_candidates = RejectedCandidate.objects.all()
+        serializer = RejectedCandidateSerializer(
+            rejected_candidates, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = RejectedCandidateSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

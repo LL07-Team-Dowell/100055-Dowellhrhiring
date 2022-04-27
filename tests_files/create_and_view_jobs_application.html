@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+
+
+
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  /* background-color: #f2f2f2; */
+  padding: 20px;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signupbtn {
+  float: left;
+  width: 50%;
+}
+
+/* Add padding to container elements */
+.container {
+  padding: 16px;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+  .cancelbtn, .signupbtn {
+     width: 100%;
+  }
+}
+</style>
+<body>
+
+<form id="createApplication" style="border:1px solid #ccc">
+  <div class="container">
+    <p>Please fill in this form to apply for a job.</p>
+    <hr>
+    <label for="applicant"><b>Applicant Id</b></label>
+    <input id="applicant" type="text" placeholder="Enter Applicant Id" name="applicant " required>
+
+    <label for="email"><b>Job Id</b></label>
+    <input id="JobId" type="text" placeholder="Enter Job Id" name="JobId" required>
+
+    <label for="JobId"><b>FeedBack</b></label>
+    <input id="feedback" type="text" placeholder="" name="email" required>
+
+    <label for="email"><b>Freelance Platform</b></label>
+    <input id="platform" type="text" placeholder="" name="email" required>
+
+    <label for="psw"><b>Freelance Platform Url</b></label>
+    <input id="url" type="text" placeholder="" name="psw" required>
+
+     <label for="psw-repeat"><b>Country</b></label>
+    <input id="country" type="text" placeholder="" name="psw-repeat" required> 
+    <label for="lname">Hr Remarks</label>
+    <textarea id="remark" name="subject" placeholder="What's the job specifications.." style="height:200px"></textarea>  
+
+    <label for="psw-repeat"><b>Status</b></label>
+    <input id="status" type="text" placeholder="" name="psw-repeat" required> 
+    <label for="lname">Others</label>
+    <textarea id="others" name="subject" placeholder="What's the job specifications.." style="height:200px"></textarea>  
+
+   
+    
+
+    <div class="clearfix">
+      <button type="button" class="cancelbtn">Cancel</button>
+      <button type="submit" class="signupbtn">Create Job application</button>
+    </div>
+  </div>
+</form>
+
+<br/><br/><br/>
+
+
+
+
+  <h3>VIEW JOB APPLICATION</h3>
+
+
+
+
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>JOB</th>
+    <th>APPLICANT</th>
+    <th> FEEDBACK</th>
+    <th>FREELANCE-PLATFORM</th>
+    <th>FREELANCE-PLATFORM URL</th>
+    <th>COUNTRY</th>
+    <th>HR REMARKS</th>
+    <th>STATUS</th>
+    <th>OTHERS</th>
+
+
+  </tr>
+  <tbody id="divBody">
+
+</tbody>
+</table>
+
+<script>
+    $(document).on('submit', '#createApplication', function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            dataType: 'json',
+
+            url:'http://100055.pythonanywhere.com/api/jobs/add_application/',
+
+
+            data:{
+                feedback:$('#feedback').val(),
+                freelancePlatform:$('#platform').val(),
+                freelancePlatformUrl:$('#url').val(),
+                country:$('#country').val(),
+                hr_remarks:$('#remarks').val(),
+                status:$('#status').val(),
+                others:$('#others').val(),
+                applicant:$('#applicant').val(),
+                job:$('#JobId').val(),
+                // csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+            },
+            error: function (xhr, status, error) {
+              
+
+              var err_msg = ''
+              for (var prop in xhr.responseJSON) {
+                  err_msg += prop + ': ' + xhr.responseJSON[prop] + '\n';
+              }
+
+              alert(err_msg);
+              },
+            success:function(){
+                alert("application added")
+
+            }
+        })
+    })   
+    
+    
+    $(document).ready(function () {
+            ViewUsers();
+        });
+
+    function ViewUsers() {
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: "https://100055.pythonanywhere.com/api/jobs/get_applications", success: function (result) {
+                   
+                    var totalCount = result.length;
+                    var structureDiv = "";
+                    for (let i = 0; i < totalCount; i++) {
+                        structureDiv += "<tr>" +
+                            "     <td>" + result[i].id + "</td>" +
+                            "      <td>" + result[i].job+ "</td>" +
+                            "             <td>" + result[i].applicant + "</td>" +
+                            "               <td>" + result[i].feedback + "</td>" +
+                            "               <td>" + result[i].freelancePlatform + "</td>" +
+                            "               <td>" + result[i].freelancePlatformUrl + "</td>" +
+                            "               <td>" + result[i].country+ "</td>" +
+                            "               <td>" + result[i].hr_remarks + "</td>" +
+                            "               <td>" + result[i].status + "</td>" +
+                            "               <td>" + result[i].others+ "</td>" +
+
+
+
+
+
+
+                            
+                            "           </tr>";
+                    }
+
+                    $("#divBody").html(structureDiv);
+              
+                }
+            });
+
+        }
+
+
+
+</script>
+</body>
+</html>

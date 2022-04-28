@@ -10,7 +10,6 @@ venv
 
 <<<<<<< HEAD
 *.pyc
-db.sqlite
 static
 templates
 =======

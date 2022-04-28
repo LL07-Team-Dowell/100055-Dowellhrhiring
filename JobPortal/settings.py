@@ -164,3 +164,4 @@ MEDIA_ROOT = '/home/100055/JobPortal/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/100055/JobPortal/static'
 STATIC_URL = '/static/'
+REST_FRAMEWORK={'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}

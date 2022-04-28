@@ -8,6 +8,10 @@ venv
 !**/migrations
 !**/migrations/__init__.py
 
+<<<<<<< HEAD
 *.pyc
 static
 templates
+=======
+*.pyc
+>>>>>>> backend

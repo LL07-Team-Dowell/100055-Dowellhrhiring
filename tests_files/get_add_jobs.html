@@ -4,95 +4,57 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<style>
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  border: 1px solid #ddd;
-}
 
-th, td {
-  text-align: left;
-  padding: 16px;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-input[type=text], select, textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-top: 6px;
-  margin-bottom: 16px;
-  resize: vertical;
-}
-
-input[type=submit] {
-  background-color: #04AA6D;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-input[type=submit]:hover {
-  background-color: #45a049;
-}
-
-.container {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
-}
-</style>
 </head>
 <body>
+<div id="divBody">
 
-  <h3>Contact Form</h3>
-
-
-
+</div>
 
 
-<table>
-  <tr>
-    <th>ID</th>
-    <th>TITLE</th>
-    <th>DESCRIPTION</th>
-    <th>SPECIFIC_T_N_C</th>
-    <th>STATUS</th>
-  </tr>
-  <tbody id="divBody">
 
-</tbody>
-</table>
+
+
+
+
 <script>
     $(document).ready(function () {
             GetJobs();
         });
+        
 
     function GetJobs() {
             $.ajax({
                 type: 'GET',
                 dataType: 'json',
                 url: "https://100055.pythonanywhere.com/api/jobs/get_jobs/", success: function (result) {
-                   
+                   var id="ID:";
+                   var title="TITLE:";
+                   var description="DESCRIPTION:";
+                   var general_terms="GENERAL TERM:";
+                   var payment_terms=" PAYMENT TERM:";
+                   var technical_specification="TECHNICAL SPECIFICATION:";
+                   var project="PROJECT:";
+                   var qualification="QUALIFICATION:";
+                   var others="OTHER:";
+                   var status="STATUS:";
                     var totalCount = result.length;
                     var structureDiv = "";
                     for (let i = 0; i < totalCount; i++) {
-                        structureDiv += "<tr>" +
-                            "     <td>" + result[i].id + "</td>" +
-                            "      <td>" + result[i].title+ "</td>" +
-                            "             <td>" + result[i].description + "</td>" +
-                            "              <td>" + result[i].specific_t_n_c + "</td>" +
-                            "               <td>" + result[i].status + "</td>" +
-                            
-                            "           </tr>";
+                      structureDiv +="<div>"+
+                       "<p>"+"<h3>"+id+"</h3>"+ result[i].id +"</p>"+
+                       "<p>"+ "<h3>"+title+"</h3>"+ result[i].title + "</p>"+
+                        "<p>"+ "<h3>"+description+"</h3>"+ result[i].description + "</p>"+
+                        "<p>"+"<h3>"+general_terms+"</h3>"+  result[i].general_terms + "</p>"+
+                        "<p>"+"<h3>"+technical_specification+"</h3>"+  result[i].Technical_Specifications + "</p>"+
+                        "<p>"+ "<h3>"+payment_terms+"</h3>"+ result[i].Payment_terms + "</p>"+
+                        "<p>"+"<h3>"+project+"</h3>"+  result[i].project +"</p>"+
+                        "<p>"+ "<h3>"+qualification+"</h3>"+ result[i].qualification+ "</p>"+
+                        "<p>"+ "<h3>"+others+"</h3>"+ result[i].others + "</p>"+
+                        "<p>"+ "<h3>"+status+"</h3>"+ result[i].status + "</p>"+
+                          
+                    "</div>";
+
                     }
 
                     $("#divBody").html(structureDiv);
@@ -103,7 +65,7 @@ input[type=submit]:hover {
         }
 
 
-      
+        
 
 
 </script>

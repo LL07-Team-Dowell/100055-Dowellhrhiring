@@ -8,7 +8,11 @@ venv
 !**/migrations
 !**/migrations/__init__.py
 
+<<<<<<< HEAD
 *.pyc
 db.sqlite
 static
 templates
+=======
+*.pyc
+>>>>>>> backend

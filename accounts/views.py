@@ -41,12 +41,30 @@ class LoginView(APIView):
                            algorithm="HS256")  # .decode("utf-8")
 
         response = Response()
-
+        response.set_cookie(key="jwt", value=token, httponly=True)
         response.data = {
             "message": "Successfully Logged In!",
             "jwt": token
         }
         return response
+
+
+class UserView(APIView):
+    def get(self, request):
+        # get jwt token and use it to retrieve the user
+        token = request.COOKIES.get('jwt')
+        if not token:
+            raise AuthenticationFailed("User is not Authenticated!")
+        secret_key = "DowellSecret"
+
+        try:
+            payload = jwt.decode(token, secret_key, algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("User not Authenticated!")
+        user = User.objects.get(id=payload['id'])
+        serializer = UserSerializer(user)
+
+        return Response(serializer.data)
 
 
 @api_view(['GET'])

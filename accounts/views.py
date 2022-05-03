@@ -67,6 +67,16 @@ class UserView(APIView):
         return Response(serializer.data)
 
 
+class LogoutView(APIView):
+    def post(self, request):
+        response = Response()
+        response.delete_cookie('jwt')
+        response.data = {
+            "message": "Successfully Logged out"
+        }
+        return response
+
+
 @api_view(['GET'])
 def get_users(request):
     users = User.objects.all()

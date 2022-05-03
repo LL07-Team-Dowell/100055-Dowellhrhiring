@@ -3,6 +3,7 @@ from .models import Task
 # import json
 
 
+<<<<<<< HEAD
 class CreateTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
@@ -19,3 +20,9 @@ class AllTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model=Task
         fields=('id', 'task', 'created_by', 'updated_by','status', 'created', 'updated' )
+=======
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = '__all__'
+>>>>>>> backend

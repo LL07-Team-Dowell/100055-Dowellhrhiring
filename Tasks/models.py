@@ -8,8 +8,12 @@ STATUS_CHOICES = (
 
 
 class Task(models.Model):
+<<<<<<< HEAD
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='created_user')
     updated_by=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='updated_user')
+=======
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+>>>>>>> backend
     task = models.CharField(max_length=132, null=True)
     status = models.CharField(
         max_length=24, choices=STATUS_CHOICES, default='Incomplete', null=True, blank=True)

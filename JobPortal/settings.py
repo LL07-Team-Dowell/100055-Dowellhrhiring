@@ -148,6 +148,8 @@ USE_TZ = True
 #     'https://infallible-jepsen-314f0d.netlify.app/',
 # ]
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 

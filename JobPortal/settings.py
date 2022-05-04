@@ -148,8 +148,11 @@ USE_TZ = True
 #     'https://infallible-jepsen-314f0d.netlify.app/',
 # ]
 CORS_ALLOW_ALL_ORIGINS = True
+<<<<<<< HEAD
+=======
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+>>>>>>> backend
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -166,3 +169,7 @@ MEDIA_ROOT = '/home/100055/JobPortal/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/100055/JobPortal/static'
 STATIC_URL = '/static/'
+<<<<<<< HEAD
+REST_FRAMEWORK={'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}
+=======
+>>>>>>> backend

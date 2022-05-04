@@ -6,6 +6,9 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
+<<<<<<< HEAD
+        fields = '__all__'
+=======
         #fields = '__all__'
         fields = ['id', 'name', 'username', 'email', 'password']
         extra_kwargs = {
@@ -20,3 +23,4 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+>>>>>>> backend

@@ -1,0 +1,11 @@
+#all items to be ignored while uploading to github
+tests
+media
+static
+venv
+# migrations
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
+db.sqlite3
+*.pyc

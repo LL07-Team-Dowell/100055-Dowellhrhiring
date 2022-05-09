@@ -139,3 +139,19 @@ class RejectedCandidate(models.Model):
 
     class Meta:
         verbose_name_plural = 'Rejected Freelancers'
+# after selection
+
+
+class Team(models.Model):
+    name = models.CharField(max_length=300)
+    team_lead = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="team_leaders")
+    github_url = models.URLField()
+    project = models.ForeignKey(
+        Project, on_delete=models.CASCADE, related_name="project_teams")
+    discord_link = models.URLField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.name}-{self.team_lead}-{self.project}'

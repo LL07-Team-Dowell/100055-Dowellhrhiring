@@ -9,11 +9,11 @@ STATUS_CHOICES = (
 
 class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    task = models.CharField(max_length=132, null=True)
+    decscription = models.CharField(max_length=132, null=True)
     status = models.CharField(
         max_length=24, choices=STATUS_CHOICES, default='Incomplete', null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.task
+        return self.decscription

@@ -9,6 +9,7 @@ STATUS_CHOICES = (
 
 class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    task = models.CharField(max_length=132, null=True)
     decscription = models.CharField(max_length=132, null=True)
     status = models.CharField(
         max_length=24, choices=STATUS_CHOICES, default='Incomplete', null=True, blank=True)

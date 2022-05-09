@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from .models import Job, JobApplication, Meeting, Project, RehiredCandidate
 from .models import RejectedCandidate
+from .models import RejectedCandidate, Team
 # import json
 
 
@@ -38,4 +39,10 @@ class RehiredCandidateSerializer(ModelSerializer):
 class RejectedCandidateSerializer(ModelSerializer):
     class Meta:
         model = RejectedCandidate
+        fields = '__all__'
+
+
+class TeamSerializer(ModelSerializer):
+    class Meta:
+        model = Team
         fields = '__all__'

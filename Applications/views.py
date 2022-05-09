@@ -1,10 +1,10 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate
+from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
 from .serializers import MeetingSerializer, ProjectSerializer, RehiredCandidateSerializer
-from .serializers import RejectedCandidateSerializer
+from .serializers import RejectedCandidateSerializer, TeamSerializer
 from rest_framework.decorators import api_view
 
 
@@ -135,6 +135,22 @@ def rejected_candidate(request):
 
     elif request.method == 'POST':
         serializer = RejectedCandidateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'POST'])
+def teams(request):
+    if request.method == 'GET':
+        teams = Team.objects.all()
+        serializer = TeamSerializer(
+            teams, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = TeamSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

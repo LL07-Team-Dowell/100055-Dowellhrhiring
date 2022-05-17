@@ -18,24 +18,19 @@ class Job(models.Model):
     title = models.CharField(max_length=100, null=False)
     description = models.TextField(null=False)
     skills = models.CharField(max_length=500, null=False, default="None")
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    CHOICES = (
-        ('Not Receiving Applications', 'Not Receiving Applications'),
-        ('Receiving Applications', 'Receiving Applications'),
-    )
-    status = models.CharField(
-        max_length=100, choices=CHOICES, default="Not Receiving Applications")
+    is_active = models.BooleanField(default=False)
     TYPECHOICES = (
         ('Remote and Freelance', 'Remote and Freelance'),
         ('Contract', 'Contract'),
         ('Full Time', 'Full Time'),
+        ('Internship', 'Internship'),
     )
     typeof = models.CharField(
         max_length=100, choices=TYPECHOICES, default="Remote and Freelance")
     general_terms = models.JSONField(null=True)
-    qualification = models.CharField(max_length=132, null=True)
     Technical_Specifications = models.JSONField()
     Payment_terms = models.JSONField()
+    workflow = models.JSONField()
     others = models.JSONField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

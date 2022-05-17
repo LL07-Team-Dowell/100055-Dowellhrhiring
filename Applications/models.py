@@ -17,7 +17,7 @@ class Project(models.Model):
 class Job(models.Model):
     title = models.CharField(max_length=100, null=False)
     description = models.TextField(null=False)
-    skills = models.CharField(max_length=500, null=False)
+    skills = models.CharField(max_length=500, null=False, default=None)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     CHOICES = (
         ('Not Receiving Applications', 'Not Receiving Applications'),

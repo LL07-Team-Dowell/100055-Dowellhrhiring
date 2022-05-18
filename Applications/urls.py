@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import application_view, get_jobs, add_new_job, get_applications, candindateview
 # from .views import UpdateaACStatus,
-from .views import hrview, update_job, delete_job, add_application, project
+from .views import hrview, update_job, delete_job, add_application, project, meeting, teams
 
 urlpatterns = [
     path('get_jobs/', get_jobs, name='get_jobs'),
@@ -11,6 +11,8 @@ urlpatterns = [
     path('delete_job/', delete_job, name="delete_job"),
 
     path('project/', project, name="project"),
+    path('meeting/', meeting, name="meeting"),
+    path('teams/', teams, name="teams"),
 
     path('get_applications/', get_applications, name="get_applications"),
     path('add_application/', add_application, name="add_application"),

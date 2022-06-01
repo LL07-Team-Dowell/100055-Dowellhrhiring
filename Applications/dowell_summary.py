@@ -38,7 +38,7 @@ def get_dowellclock():
     return data['t1']
 
 
-def save_jobs_entries(applications):
+def save_jobs_entries(job):
     url = "http://100002.pythonanywhere.com/"
     #   searchstring="ObjectId"+"("+"'"+"6139bd4969b0c91866e40551"+"'"+")"
 
@@ -51,6 +51,78 @@ def save_jobs_entries(applications):
         "database": "hr_hiring",
         "collection": "hr_view",
         "document": "hr_view",
+        "team_member_ID": "4646111",
+        "function_ID": "ABCDE",
+        "command": "insert",
+        "field": {
+            'event_id': event_id,
+            'dowelltime': dowelltime,
+        },
+        "update_field": {
+            "order_nos": 21
+        },
+
+        "platform": "bangalore"
+    })
+
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    return response.text
+
+
+def save_hired_candidates(candidate):
+    url = "http://100002.pythonanywhere.com/"
+    #   searchstring="ObjectId"+"("+"'"+"6139bd4969b0c91866e40551"+"'"+")"
+
+    event_id = get_event_id()
+    dowelltime = get_dowellclock()
+    print("EVENT_ID", event_id)
+    print("DOWELLTIME", dowelltime)
+    payload = json.dumps({
+        "cluster": "hr_hiring",
+        "database": "hr_hiring",
+        "collection": "hr_view",
+        "document": "candidate",
+        "team_member_ID": "4646111",
+        "function_ID": "ABCDE",
+        "command": "insert",
+        "field": {
+            'event_id': event_id,
+            'dowelltime': dowelltime,
+        },
+        "update_field": {
+            "order_nos": 21
+        },
+
+        "platform": "bangalore"
+    })
+
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    return response.text
+
+
+def save_rehired_candidates(candidate):
+    url = "http://100002.pythonanywhere.com/"
+    #   searchstring="ObjectId"+"("+"'"+"6139bd4969b0c91866e40551"+"'"+")"
+
+    event_id = get_event_id()
+    dowelltime = get_dowellclock()
+    print("EVENT_ID", event_id)
+    print("DOWELLTIME", dowelltime)
+    payload = json.dumps({
+        "cluster": "hr_hiring",
+        "database": "hr_hiring",
+        "collection": "hr_view",
+        "document": "rehired_candidate",
         "team_member_ID": "4646111",
         "function_ID": "ABCDE",
         "command": "insert",

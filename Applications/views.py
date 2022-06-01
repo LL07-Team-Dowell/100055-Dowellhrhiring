@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
@@ -155,3 +156,16 @@ def teams(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class JobslistSearch(generics.ListAPIView):
+    serializer_class = JobSerializer
+
+    def get_queryset(self):
+        # Optionally restricts the returned jobs to a given user,
+        # by filtering against a `username` query parameter in the URL.
+        queryset = Job.objects.all()
+        username = self.request.query_params.get('username')
+        if username is not None:
+            queryset = queryset.filter(purchaser__username=username)
+        return queryset

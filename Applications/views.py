@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Q
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
 from .serializers import MeetingSerializer, ProjectSerializer, RehiredCandidateSerializer
@@ -158,14 +159,22 @@ def teams(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class JobslistSearch(generics.ListAPIView):
-    serializer_class = JobSerializer
+@api_view(['POST'])
+def JobslistSearch(request):
+    # receives a search term assigned q and should be a post request
+    q = request.GET.get('q')
+    if request.GET.get('q') == None:
+        q = ''
+    jobs = Job.objects.filter(  # search functionality, have any of the below
+        Q(title__icontains=q) |
+        Q(skills__icontains=q) |
+        Q(description__icontains=q) |
+        Q(is_active__icontains=q)
+    )
 
-    def get_queryset(self):
-        # Optionally restricts the returned jobs to a given user,
-        # by filtering against a `username` query parameter in the URL.
-        queryset = Job.objects.all()
-        username = self.request.query_params.get('username')
-        if username is not None:
-            queryset = queryset.filter(purchaser__username=username)
-        return queryset
+    if jobs is not None:
+        serializer = JobSerializer(
+            jobs, many=True)
+        return Response(serializer.data)
+    else:
+        pass

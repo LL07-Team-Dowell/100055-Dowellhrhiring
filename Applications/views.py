@@ -160,7 +160,7 @@ def teams(request):
 
 
 @api_view(['POST'])
-def JobslistSearch(request):
+def Jobs_list_Search(request):
     # receives a search term assigned q and should be a post request
     q = request.GET.get('q')
     if request.GET.get('q') == None:
@@ -170,6 +170,25 @@ def JobslistSearch(request):
         Q(skills__icontains=q) |
         Q(description__icontains=q) |
         Q(is_active__icontains=q)
+    )
+
+    if jobs is not None:
+        serializer = JobSerializer(
+            jobs, many=True)
+        return Response(serializer.data)
+    else:
+        pass
+
+@api_view(['POST'])
+def Jobs_application_list_Search(request):
+    # receives a search term assigned q and should be a post request
+    q = request.GET.get('q')
+    if request.GET.get('q') == None:
+        q = ''
+    jobs = Job.objects.filter(  # search functionality, have any of the below
+        Q(job__title__icontains=q) |
+        Q(applicant__username__icontains=q) |
+        Q(status__icontains=q)
     )
 
     if jobs is not None:

@@ -21,19 +21,12 @@ class Job(models.Model):
     is_active = models.BooleanField(default=False)
     TYPECHOICES = (
         ('Freelance', 'Freelance'),
-        ('Contract', 'Contract'),
-        ('Full Time', 'Full Time'),
+        ('Employee', 'Employee'),
         ('Internship', 'Internship'),
     )
     typeof = models.CharField(
         max_length=100, choices=TYPECHOICES, default="Freelance")
     general_terms = models.JSONField(null=True)
-    LOCATIONCHOICES = (
-        ('Remote', 'Remote'),
-        ('Hybrid', 'Hybrid'),
-    )
-    location = models.CharField(
-        max_length=100, choices=LOCATIONCHOICES, default="Remote")
     Technical_Specifications = models.JSONField()
     Payment_terms = models.JSONField()
     workflow = models.JSONField()

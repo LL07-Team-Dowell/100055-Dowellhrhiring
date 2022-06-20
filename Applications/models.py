@@ -26,6 +26,14 @@ class Job(models.Model):
     )
     typeof = models.CharField(
         max_length=100, choices=TYPECHOICES, default="Freelance")
+    TIMECHOICES = (
+        ('Less than 1 month', 'Less than 1 month'),
+        ('1-3 Months', '1-3 Months'),
+        ('3-6 Months', '3-6 Months'),
+        ('More than 6 Months', 'More than 6 Months'),
+    )
+    time_period = models.CharField(
+        max_length=100, choices=TIMECHOICES, default="Freelance")
     general_terms = models.JSONField(null=True)
     Technical_Specifications = models.JSONField()
     Payment_terms = models.JSONField()

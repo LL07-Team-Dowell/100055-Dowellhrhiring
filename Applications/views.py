@@ -31,6 +31,14 @@ def get_applications(request):
     return Response(serializer.data)
 
 
+@api_view(['GET'])
+def get_my_applications(request):
+    user = request.user
+    applications = JobApplication.objects.filter(applicant=user)
+    serializer = JobApplicationSerializer(applications, many=True)
+    return Response(serializer.data)
+
+
 @api_view(['POST'])
 def add_application(request):
     serializer = JobApplicationSerializer(data=request.data)
@@ -178,6 +186,7 @@ def Jobs_list_Search(request):
         return Response(serializer.data)
     else:
         pass
+
 
 @api_view(['POST'])
 def Jobs_application_list_Search(request):

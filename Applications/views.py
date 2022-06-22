@@ -34,7 +34,11 @@ def get_applications(request):
 @api_view(['GET'])
 def get_my_applications(request):
     user = request.user
+    if user is None:
+        return Response({"message": "You do not have the necessary Privileges! Must be logged in"})
     applications = JobApplication.objects.filter(applicant=user)
+    if applications.len() < 1:
+        return Response({"message": "You do not have any applications Yet!"})
     serializer = JobApplicationSerializer(applications, many=True)
     return Response(serializer.data)
 
@@ -70,7 +74,7 @@ def hrview(request):
         pass
         # give access to the links for viweing applications and creating jobs
     else:
-        return Response({"message": "Yu do not have the necessary Privileges!"})
+        return Response({"message": "You do not have the necessary Privileges!"})
 
 
 @api_view(['POST'])

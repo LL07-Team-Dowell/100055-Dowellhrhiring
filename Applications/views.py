@@ -8,6 +8,7 @@ from .serializers import JobApplicationSerializer, JobSerializer, JobApplication
 from .serializers import MeetingSerializer, ProjectSerializer, RehiredCandidateSerializer
 from .serializers import RejectedCandidateSerializer, TeamSerializer
 from rest_framework.decorators import api_view
+from django.shortcuts import redirect
 
 
 @api_view(['GET'])
@@ -65,12 +66,23 @@ def add_new_job(request):
 
 def candindateview(request):
     user = request.user
+    if user is None:
+        return Response({"message": "You need to login!"})
+    if user.is_hr:
+        return redirect("hrview")
+    if user.is_team_leader:
+        # return redirect("team_lead_view")
+        pass
+    return Response({"message": "Welcome to candidate view page!"})
     # give access to all links that are related to a candidate
 
 
 def hrview(request):
+    if request is None:
+        return Response({"message": "You need to login and have HR rights"})
     user = request.user
     if user.is_hr():
+        return Response({"message": "Welcome to HR View. You can now create new jobs and review applications"})
         pass
         # give access to the links for viweing applications and creating jobs
     else:

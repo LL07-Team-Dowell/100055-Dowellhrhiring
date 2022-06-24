@@ -16,6 +16,7 @@ class User(AbstractUser):
     position = models.CharField(max_length=132, null=True)
     is_hr = models.BooleanField(default=False, null=True)
     is_team_leader = models.BooleanField(default=False, null=True)
+    is_account = models.BooleanField(default=False, null=True)
 
     def str(self):
         return f'{self.username}, {self.email}'

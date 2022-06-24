@@ -1,9 +1,10 @@
 from django.urls import path
 
-from .views import application_view, get_jobs, add_new_job, get_applications, candindateview
+from .views import application_view, get_jobs, add_new_job, get_applications, candidateview
 # from .views import UpdateaACStatus,
 from .views import hrview, update_job, delete_job, add_application, project, meeting, teams
-from .views import Jobs_list_Search, Jobs_application_list_Search, get_my_applications
+from .views import Jobs_list_Search, Jobs_application_list_Search, get_my_applications, account_view
+from .views import team_lead_view
 
 urlpatterns = [
     path('get_jobs/', get_jobs, name='get_jobs'),
@@ -19,9 +20,11 @@ urlpatterns = [
     path('add_application/', add_application, name="add_application"),
     path('get_my_applications/', get_my_applications, name="get_my_applications"),
 
-    path('candindateview/', candindateview, name="candindateview"),
+    path('candidateview/', candidateview, name="candidateview"),
     path('application_view/', application_view, name='application_view'),
     path('hrview/', hrview, name="hrview"),
+    path('account_view/', account_view, name="account_view"),
+    path('team_lead_view/', team_lead_view, name="team_lead_view"),
     # search
     path('job_search/', Jobs_list_Search, name='job_search'),
     path('job_applications_search/', Jobs_application_list_Search,

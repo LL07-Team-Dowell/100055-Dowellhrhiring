@@ -64,23 +64,42 @@ def add_new_job(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def candindateview(request):
+@api_view(['POST', 'GET'])
+def candidateview(request):
     user = request.user
-    if user is None:
+    if not user.is_authenticated:
         return Response({"message": "You need to login!"})
     if user.is_hr:
         return redirect("hrview")
     if user.is_team_leader:
-        # return redirect("team_lead_view")
-        pass
+        return redirect("team_lead_view")
     return Response({"message": "Welcome to candidate view page!"})
     # give access to all links that are related to a candidate
 
 
-def hrview(request):
-    if request is None:
-        return Response({"message": "You need to login and have HR rights"})
+@api_view(['POST', 'GET'])
+def account_view(request):
     user = request.user
+    if user.is_account is False:
+        return Response({"message": "You are not allowed to view this Page!"})
+    # Grant Account manager rights
+    return Response({"message": "Welcome to the Accounts page!"})
+
+
+@api_view(['POST', 'GET'])
+def team_lead_view(request):
+    user = request.user
+    if user.is_team_leader is False:
+        return Response({"message": "You are not allowed to view this Page!"})
+    # Grant Team Leader rights
+    return Response({"message": "Welcome to the Team Lead Page!"})
+
+
+@api_view(['POST', 'GET'])
+def hrview(request):
+    user = request.user
+    if not user.is_authenticated:
+        return Response({"message": "You need to login and have HR rights"})
     if user.is_hr():
         return Response({"message": "Welcome to HR View. You can now create new jobs and review applications"})
         pass

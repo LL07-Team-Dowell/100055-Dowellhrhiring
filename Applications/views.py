@@ -71,10 +71,25 @@ def candindateview(request):
     if user.is_hr:
         return redirect("hrview")
     if user.is_team_leader:
-        # return redirect("team_lead_view")
-        pass
+        return redirect("team_lead_view")
     return Response({"message": "Welcome to candidate view page!"})
     # give access to all links that are related to a candidate
+
+
+def account_view(request):
+    user = request.user
+    if user.is_account is False:
+        return Response({"message": "You are not allowed to view this Page!"})
+    # Grant Account manager rights
+    return Response({"message": "Welcome to the Accounts page!"})
+
+
+def team_lead_view(request):
+    user = request.user
+    if user.is_team_leader is False:
+        return Response({"message": "You are not allowed to view this Page!"})
+    # Grant Team Leader rights
+    return Response({"message": "Welcome to the Team Lead Page!"})
 
 
 def hrview(request):

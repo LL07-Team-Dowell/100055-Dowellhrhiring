@@ -1,17 +1,26 @@
+from django.contrib.auth import get_user_model
+from djoser.serializers import UserCreateSerializer
 from rest_framework import serializers
-from .models import User
-# import json
+#from .models import User
+User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-        #fields = ['id', 'name', 'username', 'email', 'password']
         extra_kwargs = {
             "password": {"write_only": True}
         }
 
+
+class CreateUserSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        model = User
+        fields = ["id", "username", "email",
+                  "first_name", "last_name", "password"]
+
+    """
     def create(self, validated_data):
         password = validated_data.pop('password', None)
         # all validated data except password
@@ -20,3 +29,4 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+    """

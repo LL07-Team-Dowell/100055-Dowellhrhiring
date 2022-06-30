@@ -1,7 +1,5 @@
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
@@ -28,7 +26,7 @@ def get_jobs(request):
 
 
 @api_view(['GET'])
-@permission_classes((permissions.IsAuthenticated))
+@permission_classes((permissions.IsAuthenticated,))
 def get_applications(request):
     applications = JobApplication.objects.all()
     serializer = JobApplicationSerializer(applications, many=True)
@@ -36,7 +34,7 @@ def get_applications(request):
 
 
 @api_view(['GET'])
-@permission_classes((permissions.IsAuthenticated))
+@permission_classes((permissions.IsAuthenticated,))
 def get_my_applications(request):
     user = request.user
     if user is None:
@@ -49,7 +47,7 @@ def get_my_applications(request):
 
 
 @api_view(['POST'])
-@permission_classes((permissions.IsAuthenticated))
+@permission_classes((permissions.IsAuthenticated,))
 def add_application(request):
     serializer = JobApplicationSerializer(data=request.data)
     print(serializer)
@@ -60,7 +58,7 @@ def add_application(request):
 
 
 @api_view(['POST'])
-@permission_classes((permissions.IsAuthenticated))
+@permission_classes((permissions.IsAuthenticated,))
 def add_new_job(request):
     serializer = JobSerializer(data=request.data)
     print(serializer)
@@ -71,7 +69,7 @@ def add_new_job(request):
 
 
 @api_view(['POST', 'GET'])
-@permission_classes((permissions.IsAuthenticated))
+@permission_classes((permissions.IsAuthenticated,))
 def candidateview(request):
     user = request.user
     if not user.is_authenticated:
@@ -85,32 +83,32 @@ def candidateview(request):
 
 
 @api_view(['POST', 'GET'])
-@permission_classes((permissions.IsAuthenticated))
+@permission_classes((permissions.IsAuthenticated,))
 def account_view(request):
     user = request.user
-    if user.is_account is False:
+    if not user.is_account:
         return Response({"message": "You are not allowed to view this Page!"})
     # Grant Account manager rights
     return Response({"message": "Welcome to the Accounts page!"})
 
 
 @api_view(['POST', 'GET'])
-@permission_classes((permissions.IsAuthenticated))
+@permission_classes((permissions.IsAuthenticated,))
 def team_lead_view(request):
     user = request.user
-    if user.is_team_leader is False:
+    if not user.is_team_leader:
         return Response({"message": "You are not allowed to view this Page!"})
     # Grant Team Leader rights
     return Response({"message": "Welcome to the Team Lead Page!"})
 
 
 @api_view(['POST', 'GET'])
-@permission_classes((permissions.IsAuthenticated))
+@permission_classes((permissions.IsAuthenticated,))
 def hrview(request):
     user = request.user
     if not user.is_authenticated:
         return Response({"message": "You need to login and have HR rights"})
-    if user.is_hr():
+    if user.is_hr:
         return Response({"message": "Welcome to HR View. You can now create new jobs and review applications"})
         pass
         # give access to the links for viweing applications and creating jobs
@@ -119,7 +117,7 @@ def hrview(request):
 
 
 @api_view(['POST'])
-@permission_classes((permissions.IsAuthenticated))
+@permission_classes((permissions.IsAuthenticated,))
 def update_job(request, pk):
     job = Job.objects.get(id=pk)
     serializer = JobSerializer(instance=job, data=request.data)
@@ -130,7 +128,7 @@ def update_job(request, pk):
 
 
 @api_view(['DELETE'])
-@permission_classes((permissions.IsAuthenticated))
+@permission_classes((permissions.IsAuthenticated,))
 def delete_job(request, pk):
     job = Job.objects.get(id=pk)
     job.delete()

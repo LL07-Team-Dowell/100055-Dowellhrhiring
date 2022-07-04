@@ -14,7 +14,7 @@ from django.shortcuts import redirect
 
 
 @api_view(['GET'])
-@permission_classes((permissions.IsAuthenticated,))
+# @permission_classes((permissions.IsAuthenticated,))
 def get_user(request):
     user = request.user
     serializer = UserSerializer(user, many=False)
@@ -29,7 +29,7 @@ def application_view(request):
 
 
 @api_view(['GET'])
-@permission_classes((permissions.AllowAny,))
+# @permission_classes((permissions.AllowAny,))
 def get_jobs(request):
     jobs = Job.objects.all()
     serializer = JobSerializer(jobs, many=True)
@@ -45,7 +45,6 @@ def get_applications(request):
 
 
 @api_view(['GET'])
-@permission_classes((permissions.IsAuthenticated,))
 def get_my_applications(request):
     user = request.user
     if user is None:
@@ -58,7 +57,6 @@ def get_my_applications(request):
 
 
 @api_view(['POST'])
-@permission_classes((permissions.IsAuthenticated,))
 def add_application(request):
     serializer = JobApplicationSerializer(data=request.data)
     print(serializer)
@@ -69,7 +67,6 @@ def add_application(request):
 
 
 @api_view(['POST'])
-@permission_classes((permissions.IsAuthenticated,))
 def add_new_job(request):
     serializer = JobSerializer(data=request.data)
     print(serializer)
@@ -80,7 +77,6 @@ def add_new_job(request):
 
 
 @api_view(['POST', 'GET'])
-@permission_classes((permissions.IsAuthenticated,))
 def candidateview(request):
     user = request.user
     if not user.is_authenticated:
@@ -94,7 +90,6 @@ def candidateview(request):
 
 
 @api_view(['POST', 'GET'])
-@permission_classes((permissions.IsAuthenticated,))
 def account_view(request):
     user = request.user
     if not user.is_account:
@@ -104,7 +99,6 @@ def account_view(request):
 
 
 @api_view(['POST', 'GET'])
-@permission_classes((permissions.IsAuthenticated,))
 def team_lead_view(request):
     user = request.user
     if not user.is_team_leader:
@@ -114,7 +108,6 @@ def team_lead_view(request):
 
 
 @api_view(['POST', 'GET'])
-@permission_classes((permissions.IsAuthenticated,))
 def hrview(request):
     user = request.user
     if not user.is_authenticated:
@@ -128,7 +121,6 @@ def hrview(request):
 
 
 @api_view(['POST'])
-@permission_classes((permissions.IsAuthenticated,))
 def update_job(request, pk):
     job = Job.objects.get(id=pk)
     serializer = JobSerializer(instance=job, data=request.data)
@@ -139,7 +131,6 @@ def update_job(request, pk):
 
 
 @api_view(['DELETE'])
-@permission_classes((permissions.IsAuthenticated,))
 def delete_job(request, pk):
     job = Job.objects.get(id=pk)
     job.delete()

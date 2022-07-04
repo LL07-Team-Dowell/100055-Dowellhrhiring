@@ -12,9 +12,11 @@ import datetime
 # create views here
 
 import requests
-def Dowell_Login(username,password):
-    url="http://100014.pythonanywhere.com/api/login/"
-    userurl="http://100014.pythonanywhere.com/api/user/"
+
+
+def Dowell_Login(username, password):
+    url = "http://100014.pythonanywhere.com/api/login/"
+    userurl = "http://100014.pythonanywhere.com/api/user/"
     payload = {
         'username': username,
         'password': password
@@ -26,7 +28,9 @@ def Dowell_Login(username,password):
         else:
             user = s.get(userurl)
             return user.text
-r=Dowell_Login()
+
+
+r = Dowell_Login()
 
 
 class RegisterView(APIView):

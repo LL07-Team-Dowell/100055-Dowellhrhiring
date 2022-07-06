@@ -1,5 +1,6 @@
 from django.db import models
-from accounts.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 STATUS_CHOICES = (
     ('Complete', 'Complete'),

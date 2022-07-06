@@ -2,25 +2,42 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.db.models import Q
 
-from accounts.serializers import UserSerializer
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
 from .serializers import MeetingSerializer, ProjectSerializer, RehiredCandidateSerializer
-from accounts.serializers import UserSerializer
+#from accounts.serializers import UserSerializer
 from .serializers import RejectedCandidateSerializer, TeamSerializer
 from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import redirect
+import requests
+
+
+def Dowell_Login(username, password):
+    url = "http://100014.pythonanywhere.com/api/login/"
+    userurl = "http://100014.pythonanywhere.com/api/user/"
+    payload = {
+        'username': username,
+        'password': password
+    }
+    with requests.Session() as s:
+        p = s.post(url, data=payload)
+        if "Username" in p.text:
+            return p.text
+        else:
+            user = s.get(userurl)
+            return user.text
+
+
+# r = Dowell_Login()
 
 
 @api_view(['GET'])
 # @permission_classes((permissions.IsAuthenticated,))
-def get_user(request):
-    user = request.user
-    serializer = UserSerializer(user, many=False)
-    return Response(serializer.data)
-
-
+# def get_user(request):
+#     user = request.user
+#     serializer = UserSerializer(user, many=False)
+#     return Response(serializer.data)
 @api_view(['GET'])
 def application_view(request):
     applications = JobApplication.objects.all()

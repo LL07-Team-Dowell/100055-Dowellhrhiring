@@ -54,7 +54,6 @@ def get_jobs(request):
 
 
 @api_view(['GET'])
-@permission_classes((permissions.IsAuthenticated,))
 def get_applications(request):
     applications = JobApplication.objects.all()
     serializer = JobApplicationSerializer(applications, many=True)
@@ -95,7 +94,11 @@ def add_new_job(request):
 
 @api_view(['POST', 'GET'])
 def candidateview(request):
-    # user = request.user
+    user = request.user
+    print(request)
+    print({request})
+    print(request.id)
+    print(user)
     # if not user.is_authenticated:
     #     return Response({"message": "You need to login!"})
     # if user.is_hr:

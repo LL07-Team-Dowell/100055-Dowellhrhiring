@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from django.db.models import Q
+import jwt
 
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
@@ -95,9 +96,9 @@ def add_new_job(request):
 @api_view(['POST', 'GET'])
 def candidateview(request):
     user = request.user
+    print(type(request))
+    print(dir(request))
     print(request)
-    print({request})
-    print(request.id)
     print(user)
     # if not user.is_authenticated:
     #     return Response({"message": "You need to login!"})

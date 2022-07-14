@@ -96,9 +96,6 @@ def add_new_job(request):
 @api_view(['POST', 'GET'])
 def candidateview(request):
     user = request.user
-    jwt_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IkhSX2xlYWQiLCJleHAiOjE2NTc4MDMwMzIsImlhdCI6MTY1Nzc5OTQzMn0.v_wnjmg7x6n3NC7M8lLSRevwJWuSGxKasI9dZ57VsN8"
-    user_details = jwt.decode(jwt_token, "secret", algorithms=["HS256"])
-    print(user_details)
     print(type(request))
     print(dir(request))
     print(request)

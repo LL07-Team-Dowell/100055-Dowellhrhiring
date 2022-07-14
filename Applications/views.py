@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from django.db.models import Q
+import jwt
 
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
@@ -95,9 +96,12 @@ def add_new_job(request):
 @api_view(['POST', 'GET'])
 def candidateview(request):
     user = request.user
+    jwt_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IkhSX2xlYWQiLCJleHAiOjE2NTc4MDMwMzIsImlhdCI6MTY1Nzc5OTQzMn0.v_wnjmg7x6n3NC7M8lLSRevwJWuSGxKasI9dZ57VsN8"
+    user_details = jwt.decode(jwt_token, "secret", algorithms=["HS256"])
+    print(user_details)
+    print(type(request))
+    print(dir(request))
     print(request)
-    print({request})
-    print(request.id)
     print(user)
     # if not user.is_authenticated:
     #     return Response({"message": "You need to login!"})

@@ -5,8 +5,8 @@ User = get_user_model()
 
 
 class Project(models.Model):
-    project_name = models.CharField(max_length=100)
-    project_leader = models.ForeignKey(User, on_delete=models.CASCADE)
+    project_name = models.CharField(max_length=100, null=False)
+    project_leader = models.CharField(max_length=100, null=False)
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -48,7 +48,7 @@ class Job(models.Model):
 
 
 class JobApplication(models.Model):
-    applicant = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    applicant = models.CharField(max_length=100, null=False)
     job = models.ForeignKey(Job, on_delete=models.CASCADE, null=True)
     feedBack = models.TextField(null=True)
     freelancePlatform = models.CharField(max_length=132, null=True)
@@ -69,10 +69,8 @@ class JobApplication(models.Model):
 
 class Meeting(models.Model):
     date_applied = models.DateTimeField()
-    applicant = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="applicants")
-    interviewer = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="interviewers")
+    applicant = models.CharField(max_length=100, null=False)
+    interviewer = models.CharField(max_length=100, null=False)
     job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)
     remarks = models.CharField(max_length=200)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -86,8 +84,7 @@ class Meeting(models.Model):
 
 class FreelancersAndInterns(models.Model):
 
-    freelancer = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="interns_and_freelancers")
+    freelancer = models.CharField(max_length=100, null=False)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     hr_remarks = models.CharField(max_length=500, null=True)
     tl_remarks = models.CharField(max_length=500, null=True)
@@ -107,8 +104,7 @@ class FreelancersAndInterns(models.Model):
 
 
 class RehiredCandidate(models.Model):
-    freelancer = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="rehired_freelancers")
+    freelancer = models.CharField(max_length=100, null=False)
     job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     tl_remarks = models.CharField(max_length=500, null=True)
@@ -130,8 +126,7 @@ class RehiredCandidate(models.Model):
 
 
 class RejectedCandidate(models.Model):
-    freelancer = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="rejected_freelancers")
+    freelancer = models.CharField(max_length=100, null=False)
     job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     tl_remarks = models.CharField(max_length=500, null=True)
@@ -155,8 +150,7 @@ class RejectedCandidate(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=300)
-    team_lead = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="team_leaders")
+    team_lead = models.CharField(max_length=100, null=False)
     github_url = models.URLField()
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="project_teams")

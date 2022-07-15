@@ -95,50 +95,26 @@ def add_new_job(request):
 
 @api_view(['POST', 'GET'])
 def candidateview(request):
-    user = request.user
     print(type(request))
     print(dir(request))
     print(request)
-    print(user)
-    # if not user.is_authenticated:
-    #     return Response({"message": "You need to login!"})
-    # if user.is_hr:
-    #     return redirect("hrview")
-    # if user.is_team_leader:
-    #     return redirect("team_lead_view")
     return Response({"message": "Welcome to candidate view page!"})
     # give access to all links that are related to a candidate
 
 
 @api_view(['POST', 'GET'])
 def account_view(request):
-    # user = request.user
-    # if not user.is_account:
-    #     return Response({"message": "You are not allowed to view this Page!"})
-    # Grant Account manager rights
     return Response({"message": "Welcome to the Accounts page!"})
 
 
 @api_view(['POST', 'GET'])
 def team_lead_view(request):
-    # user = request.user
-    # if not user.is_team_leader:
-    #     return Response({"message": "You are not allowed to view this Page!"})
-    # # Grant Team Leader rights
     return Response({"message": "Welcome to the Team Lead Page!"})
 
 
 @api_view(['POST', 'GET'])
 def hrview(request):
-    # user = request.user
-    # if not user.is_authenticated:
-    #     return Response({"message": "You need to login and have HR rights"})
-    # if user.is_hr:
     return Response({"message": "Welcome to HR View. You can now create new jobs and review applications"})
-    #     pass
-    #     # give access to the links for viweing applications and creating jobs
-    # else:
-    #     return Response({"message": "You do not have the necessary Privileges!"})
 
 
 @api_view(['POST'])
@@ -156,6 +132,25 @@ def delete_job(request, pk):
     job = Job.objects.get(id=pk)
     job.delete()
     return Response("Job successfully deleted")
+
+
+@api_view(['POST'])
+def update_application(request, pk):
+    job = JobApplication.objects.get(id=pk)
+    serializer = JobApplicationSerializer(instance=job, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        return Response("Job application updating was not successfull. Try look for possible errors!")
+
+    return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def delete_application(request, pk):
+    job = JobApplication.objects.get(id=pk)
+    job.delete()
+    return Response("Application successfully deleted")
 
 
 @api_view(['GET', 'POST'])

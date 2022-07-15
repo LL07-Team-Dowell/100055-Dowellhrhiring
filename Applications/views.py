@@ -136,7 +136,7 @@ def delete_job(request, pk):
 
 @api_view(['POST'])
 def update_application(request, pk):
-    job = Job.objects.get(id=pk)
+    job = JobApplication.objects.get(id=pk)
     serializer = JobApplicationSerializer(instance=job, data=request.data)
     if serializer.is_valid():
         serializer.save()

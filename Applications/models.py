@@ -49,7 +49,7 @@ class Job(models.Model):
 
 class JobApplication(models.Model):
     applicant = models.CharField(max_length=100, null=False)
-    job = models.ForeignKey(Job, on_delete=models.CASCADE, null=True)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, null=False)
     feedBack = models.TextField(null=True)
     freelancePlatform = models.CharField(max_length=132, null=True)
     freelancePlatformUrl = models.URLField(null=True)
@@ -70,16 +70,15 @@ class JobApplication(models.Model):
 class Meeting(models.Model):
     date_applied = models.DateTimeField()
     applicant = models.CharField(max_length=100, null=False)
-    interviewer = models.CharField(max_length=100, null=False)
+    #interviewer = models.CharField(max_length=100, null=False)
     job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)
     remarks = models.CharField(max_length=200)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     status = models.CharField(max_length=50, default="Pending")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.applicant}-{self.interviewer}'
+        return f'{self.applicant}-{self.job_applied}'
 
 
 class FreelancersAndInterns(models.Model):

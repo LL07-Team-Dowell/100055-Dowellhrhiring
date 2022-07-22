@@ -134,7 +134,7 @@ def delete_job(request, pk):
     return Response("Job successfully deleted")
 
 
-test_strings = ["Hired", "Hire", "Select", "Selected"]
+test_strings = ["Hired", "Hire", "Select", "Selected", "shortlisted"]
 
 
 @api_view(['POST'])
@@ -145,10 +145,15 @@ def update_application(request, pk):
     applicant = job_application.applicant
     job_applied = job_application.job
     remarks = job_application.hr_remarks
+    title = f'{job_applied}: Job application update'
+    message = f"Your application for the position {job_applied} was {status} and interview scheduled."
     if any(word.lower() in status.lower() for word in test_strings):
         new_meeting = Meeting(date_applied=date_applied, applicant=applicant,
                               job_applied=job_applied, remarks=remarks)
         new_meeting.save()
+        new_alert = Alert(title=title, recipient=applicant,
+                          typeof=status, message=message)
+        new_alert.save()
     else:
         pass
     serializer = JobApplicationSerializer(

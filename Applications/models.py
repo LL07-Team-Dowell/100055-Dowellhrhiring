@@ -161,8 +161,8 @@ class Team(models.Model):
 
 
 class Alert(models.Model):
-    name = models.CharField(max_length=300)
-    recepient = models.CharField(max_length=300)
+    title = models.CharField(max_length=300)
+    recipient = models.CharField(max_length=300)
     CHOICES = (
         ('Success', 'Success'),
         ('Failure', 'Failure'),
@@ -175,4 +175,4 @@ class Alert(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.name}-{self.recepient}-{self.typeof}'
+        return f'{self.name}-{self.recipient}-{self.typeof}'

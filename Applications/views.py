@@ -3,11 +3,11 @@ from rest_framework.response import Response
 from django.db.models import Q
 import jwt
 
-from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team
+from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team, Alert
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
 from .serializers import MeetingSerializer, ProjectSerializer, RehiredCandidateSerializer
 #from accounts.serializers import UserSerializer
-from .serializers import RejectedCandidateSerializer, TeamSerializer
+from .serializers import RejectedCandidateSerializer, TeamSerializer, AlertSerializer
 from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import redirect
@@ -134,7 +134,7 @@ def delete_job(request, pk):
     return Response("Job successfully deleted")
 
 
-test_strings = ["Hired", "Hire", "Select", "Selected"]
+test_strings = ["Hired", "Hire", "Select", "Selected", "shortlisted"]
 
 
 @api_view(['POST'])
@@ -145,10 +145,15 @@ def update_application(request, pk):
     applicant = job_application.applicant
     job_applied = job_application.job
     remarks = job_application.hr_remarks
+    title = f'{job_applied}: Job application update'
+    message = f"Your application for the position {job_applied} was {status} and interview scheduled."
     if any(word.lower() in status.lower() for word in test_strings):
         new_meeting = Meeting(date_applied=date_applied, applicant=applicant,
                               job_applied=job_applied, remarks=remarks)
         new_meeting.save()
+        new_alert = Alert(title=title, recipient=applicant,
+                          typeof=status, message=message)
+        new_alert.save()
     else:
         pass
     serializer = JobApplicationSerializer(
@@ -196,6 +201,17 @@ def project(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def alerts(request):
+    if request.method == 'GET':
+        alerts = Alert.objects.all()
+        serializer = AlertSerializer(alerts, many=True)
+        return Response(serializer.data)
+
+    else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

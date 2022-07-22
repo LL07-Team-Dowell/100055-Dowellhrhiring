@@ -27,14 +27,13 @@ class Job(models.Model):
     )
     typeof = models.CharField(
         max_length=100, choices=TYPECHOICES, default="Freelance")
-    TIMECHOICES = (
-        ('Less than 1 month', 'Less than 1 month'),
-        ('1-3 Months', '1-3 Months'),
-        ('3-6 Months', '3-6 Months'),
-        ('More than 6 Months', 'More than 6 Months'),
-    )
-    time_period = models.CharField(
-        max_length=100, choices=TIMECHOICES, default="Freelance")
+    # TIMECHOICES = (
+    #     ('Less than 1 month', 'Less than 1 month'),
+    #     ('1-3 Months', '1-3 Months'),
+    #     ('3-6 Months', '3-6 Months'),
+    #     ('More than 6 Months', 'More than 6 Months'),
+    # )
+    time_period = models.CharField(max_length=100, null="False")
     general_terms = models.JSONField(null=True)
     Technical_Specifications = models.JSONField()
     Payment_terms = models.JSONField()
@@ -159,3 +158,21 @@ class Team(models.Model):
 
     def __str__(self):
         return f'{self.name}-{self.team_lead}-{self.project}'
+
+
+class Alert(models.Model):
+    name = models.CharField(max_length=300)
+    recepient = models.CharField(max_length=300)
+    CHOICES = (
+        ('Success', 'Success'),
+        ('Failure', 'Failure'),
+        ('Pending', 'Pending'),
+    )
+    typeof = models.CharField(
+        max_length=300, choices=CHOICES, default="Pending")
+    message = models.CharField(max_length=500)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.name}-{self.recepient}-{self.typeof}'

@@ -3,11 +3,11 @@ from rest_framework.response import Response
 from django.db.models import Q
 import jwt
 
-from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team
+from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team, Alert
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
 from .serializers import MeetingSerializer, ProjectSerializer, RehiredCandidateSerializer
 #from accounts.serializers import UserSerializer
-from .serializers import RejectedCandidateSerializer, TeamSerializer
+from .serializers import RejectedCandidateSerializer, TeamSerializer, AlertSerializer
 from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import redirect
@@ -196,6 +196,17 @@ def project(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def alerts(request):
+    if request.method == 'GET':
+        alerts = Alert.objects.all()
+        serializer = AlertSerializer(alerts, many=True)
+        return Response(serializer.data)
+
+    else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

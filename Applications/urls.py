@@ -4,7 +4,7 @@ from .views import application_view, get_jobs, add_new_job, get_applications, ca
 # from .views import UpdateaACStatus,
 from .views import hrview, update_job, delete_job, add_application, project, meeting, teams
 from .views import Jobs_list_Search, Jobs_application_list_Search, get_my_applications, account_view
-from .views import team_lead_view, update_application, delete_application  # get_user
+from .views import team_lead_view, update_application, delete_application, alerts  # get_user
 
 urlpatterns = [
     # jobs
@@ -15,6 +15,7 @@ urlpatterns = [
 
     path('project/', project, name="project"),
     path('meeting/', meeting, name="meeting"),
+    path('alerts/', alerts, name="alerts"),
     path('teams/', teams, name="teams"),
     # applications
     path('get_applications/', get_applications, name="get_applications"),

@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     'corsheaders',
     # project apps
     'Applications',
-    'Tasks',
 ]
 
 MIDDLEWARE = [

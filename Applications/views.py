@@ -4,8 +4,10 @@ from django.db.models import Q
 import jwt
 
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team, Alert
+from .models import Task
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
 from .serializers import MeetingSerializer, ProjectSerializer, RehiredCandidateSerializer
+from .serializers import TaskSerializer
 #from accounts.serializers import UserSerializer
 from .serializers import RejectedCandidateSerializer, TeamSerializer, AlertSerializer
 from rest_framework import permissions
@@ -260,6 +262,42 @@ def teams(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def get_tasks(request):
+    tasks = Task.objects.all()
+    serializer = TaskSerializer(tasks, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def add_new_task(request):
+    serializer = TaskSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def delete_task(request, pk):
+    task = Task.objects.get(id=pk)
+    task.delete()
+    return Response("Task deleted successfully!")
+
+
+@api_view(['POST'])
+def update_task(request, pk):
+    task = Task.objects.get(id=pk)
+    serializer = TaskSerializer(
+        instance=task, data=request.data)
+    print(serializer)
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        return Response("Task update was not successful. Try look for possible errors!")
+    return Response(serializer.data)
 
 
 @api_view(['POST'])

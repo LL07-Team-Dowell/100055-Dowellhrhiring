@@ -55,7 +55,7 @@ class JobApplication(models.Model):
     country = models.CharField(max_length=132, null=True)
     hr_remarks = models.CharField(max_length=500, null=True)
     status = models.CharField(max_length=132, null=True, default="Pending")
-    others = models.JSONField()
+    others = models.JSONField(null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -176,3 +176,20 @@ class Alert(models.Model):
 
     def __str__(self):
         return f'{self.name}-{self.recipient}-{self.typeof}'
+
+
+class Task(models.Model):
+    user = models.CharField(max_length=132, null=False)
+    title = models.CharField(max_length=132, null=False)
+    description = models.CharField(max_length=132, null=True)
+    STATUS_CHOICES = (
+        ('Complete', 'Complete'),
+        ('Incomplete', 'Incomplete'),
+    )
+    status = models.CharField(
+        max_length=24, choices=STATUS_CHOICES, default='Incomplete', null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.description

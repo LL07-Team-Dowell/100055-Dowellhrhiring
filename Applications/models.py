@@ -55,7 +55,7 @@ class JobApplication(models.Model):
     country = models.CharField(max_length=132, null=True)
     hr_remarks = models.CharField(max_length=500, null=True)
     status = models.CharField(max_length=132, null=True, default="Pending")
-    others = models.JSONField()
+    others = models.JSONField(null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

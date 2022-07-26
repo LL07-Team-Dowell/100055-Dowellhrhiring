@@ -176,3 +176,20 @@ class Alert(models.Model):
 
     def __str__(self):
         return f'{self.name}-{self.recipient}-{self.typeof}'
+
+
+class Task(models.Model):
+    user = models.CharField(max_length=132, null=False)
+    task = models.CharField(max_length=132, null=True)
+    description = models.CharField(max_length=132, null=True)
+    STATUS_CHOICES = (
+        ('Complete', 'Complete'),
+        ('Incomplete', 'Incomplete'),
+    )
+    status = models.CharField(
+        max_length=24, choices=STATUS_CHOICES, default='Incomplete', null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.description

@@ -180,7 +180,7 @@ class Alert(models.Model):
 
 class Task(models.Model):
     user = models.CharField(max_length=132, null=False)
-    task = models.CharField(max_length=132, null=True)
+    title = models.CharField(max_length=132, null=False)
     description = models.CharField(max_length=132, null=True)
     STATUS_CHOICES = (
         ('Complete', 'Complete'),

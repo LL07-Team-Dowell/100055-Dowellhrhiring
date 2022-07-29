@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.db.models import Q
 import jwt
+from datetime import datetime
 
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team, Alert
 from .models import Task
@@ -78,7 +79,16 @@ def get_my_applications(request):
 @api_view(['POST'])
 def add_application(request):
     serializer = JobApplicationSerializer(data=request.data)
-    print(serializer)
+    date_applied = datetime.now()
+    applicant = request.data["applicant"]
+    job_id = request.data["job"]
+    job_applied = Job.objects.get(id=job_id)
+    title = request.data["title"]
+    description = request.data["description"]
+    remarks = f"This is the initial meeting for {title} and its all about {description}"
+    new_meeting = Meeting(date_applied=date_applied, applicant=applicant,
+                          job_applied=job_applied, remarks=remarks)
+    new_meeting.save()
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -143,16 +153,12 @@ test_strings = ["Hired", "Hire", "Select", "Selected", "shortlisted"]
 def update_application(request, pk):
     job_application = JobApplication.objects.get(id=pk)
     status = request.data["status"]
-    date_applied = job_application.created
     applicant = job_application.applicant
     job_applied = job_application.job
-    remarks = job_application.hr_remarks
+    #remarks = job_application.hr_remarks
     title = f'{job_applied}: Job application update'
     message = f"Your application for the position {job_applied} was {status} and interview scheduled."
     if any(word.lower() in status.lower() for word in test_strings):
-        new_meeting = Meeting(date_applied=date_applied, applicant=applicant,
-                              job_applied=job_applied, remarks=remarks)
-        new_meeting.save()
         new_alert = Alert(title=title, recipient=applicant,
                           typeof=status, message=message)
         new_alert.save()

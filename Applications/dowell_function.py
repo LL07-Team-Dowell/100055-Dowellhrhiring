@@ -52,7 +52,6 @@ def save_candidate(candidate):
         "command": "insert",
         "field": {
             "eventId": get_event_id(),
-            "full_name": "George",
             "candidate_data": candidate
         },
         "update_field": {

@@ -1,8 +1,9 @@
 from rest_framework import status
 from rest_framework.response import Response
 from django.db.models import Q
-import jwt
+import json
 from datetime import datetime
+from .dowell_function import save_candidate
 
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team, Alert
 from .models import Task
@@ -91,6 +92,10 @@ def add_application(request):
     new_meeting.save()
     if serializer.is_valid():
         serializer.save()
+        try:
+            save_candidate(serializer.data)
+        except:
+            print("Candidate data not saved to MongoDB Database")
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

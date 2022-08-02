@@ -39,32 +39,50 @@ def get_event_id():
     return r.text
 
 
-url = "http://100002.pythonanywhere.com/"
-# searchstring="ObjectId"+"("+"'"+"6139bd4969b0c91866e40551"+"'"+")"
-payload = json.dumps({
-    "cluster": "hr_hiring",
-    "database": "hr_hiring",
-    "collection": "candidate_view",
-    "document": "candidate_view",
-    "team_member_ID": "1000553",
-    "function_ID": "ABCDE",
-    "command": "insert",
-    "field": {
-        "eventId": get_event_id(),
-        "full_name": "Manish"
-    },
-    "update_field": {
-        "order_nos": 21
-    },
-    "platform": "bangalore"
-})
-headers = {
-    'Content-Type': 'application/json'
-}
-response = requests.request("POST", url, headers=headers, data=payload)
-print(response.text)
+def get_dowellclock():
+    response_dowell = requests.get(
+        'https://100009.pythonanywhere.com/dowellclock')
+    data = response_dowell.json()
+    return data['t1']
 
 
+def save_candidate(request, candidate):
+    url = "http://100002.pythonanywhere.com/"
+    #   searchstring="ObjectId"+"("+"'"+"6139bd4969b0c91866e40551"+"'"+")"
+
+    event_id = get_event_id()
+    dowelltime = get_dowellclock()
+    print("EVENT_ID", event_id)
+    print("DOWELLTIME", dowelltime)
+    payload = json.dumps({
+        "cluster": "hr_hiring",
+        "database": "hr_hiring",
+        "collection": "hr_view",
+        "document": "hr_view",
+        "team_member_ID": "4646111",
+        "function_ID": "ABCDE",
+        "command": "insert",
+        "field": {
+            'event_id': event_id,
+            'dowelltime': dowelltime,
+        },
+        "update_field": {
+            "order_nos": 21
+        },
+
+        "platform": "bangalore"
+    })
+
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    return response.text
+
+
+# testing data
 def targeted_population(database, collection, fields, period):
     url = 'http://100032.pythonanywhere.com/api/targeted_population/'
     database_details = {

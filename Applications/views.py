@@ -1,9 +1,8 @@
 from rest_framework import status
 from rest_framework.response import Response
 from django.db.models import Q
-import json
 from datetime import datetime
-from .dowell_function import save_candidate
+from .dowell_function import save_candidate, save_task
 
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team, Alert
 from .models import Task
@@ -287,6 +286,10 @@ def add_new_task(request):
     serializer = TaskSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+        try:
+            save_candidate(serializer.data)
+        except:
+            print("Task details not saved to MongoDB Database")
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

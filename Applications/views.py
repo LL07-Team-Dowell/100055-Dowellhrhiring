@@ -287,7 +287,7 @@ def add_new_task(request):
     if serializer.is_valid():
         serializer.save()
         try:
-            save_candidate(serializer.data)
+            save_task(serializer.data)
         except:
             print("Task details not saved to MongoDB Database")
         return Response(serializer.data, status=status.HTTP_201_CREATED)

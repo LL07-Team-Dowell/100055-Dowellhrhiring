@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.db.models import Q
 from datetime import datetime
-from .dowell_function import save_candidate, save_task
+from .dowell_function import save_candidate, save_task, save_application
 
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team, Alert
 from .models import Task
@@ -173,6 +173,10 @@ def update_application(request, pk):
     print(serializer)
     if serializer.is_valid():
         serializer.save()
+        try:
+            save_application(serializer.data)
+        except:
+            print("Application not saved to MongoDB Database")
     else:
         return Response("Job application updating was not successfull. Try look for possible errors! Ensure you have included the relevant job/job id")
 

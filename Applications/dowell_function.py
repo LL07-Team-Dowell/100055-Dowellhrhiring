@@ -83,3 +83,26 @@ def save_task(task):
     headers = {'Content-Type': 'application/json'}
     response = requests.request("POST", url, headers=headers, data=payload)
     print(response.text)
+
+
+def save_application(application):
+    url = "http://100002.pythonanywhere.com/"
+    # searchstring="ObjectId"+"("+"'"+"6139bd4969b0c91866e40551"+"'"+")"
+    payload = json.dumps({
+        "cluster": "hr_hiring",
+        "database": "hr_hiring",
+        "collection": "hr_view",
+        "document": "hr_view",
+        "team_member_ID": "4646111",
+        "function_ID": "ABCDE",
+        "command": "insert",
+        "field": {
+            "eventId": get_event_id(),
+            "task_details": application
+        },
+        "update_field": {"order_nos": 21},
+        "platform": "bangalore"
+    })
+    headers = {'Content-Type': 'application/json'}
+    response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)

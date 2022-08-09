@@ -98,7 +98,7 @@ def save_application(application):
         "command": "insert",
         "field": {
             "eventId": get_event_id(),
-            "task_details": application
+            "application_details": application
         },
         "update_field": {"order_nos": 21},
         "platform": "bangalore"

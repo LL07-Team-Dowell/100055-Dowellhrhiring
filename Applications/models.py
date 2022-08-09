@@ -179,9 +179,9 @@ class Alert(models.Model):
 
 
 class Task(models.Model):
-    user = models.CharField(max_length=132, null=False)
-    title = models.CharField(max_length=132, null=False)
-    description = models.CharField(max_length=132, null=True)
+    user = models.CharField(max_length=256, null=False)
+    title = models.CharField(max_length=300, null=False)
+    description = models.CharField(max_length=2048, null=True)
     STATUS_CHOICES = (
         ('Complete', 'Complete'),
         ('Incomplete', 'Incomplete'),

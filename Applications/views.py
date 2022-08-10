@@ -175,16 +175,20 @@ def update_application(request, pk):
         serializer.save()
         if status.lower() == "shortlisted":
             document_name = "hr_view"
-            save_application(document_name, serializer.data)
+            member_id = "4646111"
+            save_application(document_name, member_id, serializer.data)
         elif status.lower() == "selected":
             document_name = "hr_view"
-            save_application(document_name, serializer.data)
+            member_id = "4646111"
+            save_application(document_name, member_id, serializer.data)
         elif status.lower() == "teamlead_hire":
             document_name = "teamlead_view"
-            save_application(document_name, serializer.data)
+            member_id = "1000552"
+            save_application(document_name, member_id, serializer.data)
         elif status.lower() == "hired":
             document_name = "accounts_view"
-            save_application(document_name, serializer.data)
+            member_id = "1000551"
+            save_application(document_name, member_id, serializer.data)
         else:
             print("Application update and its details not saved to MongoDB Database")
     else:

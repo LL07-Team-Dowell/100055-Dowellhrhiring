@@ -85,7 +85,7 @@ def save_task(task):
     print(response.text)
 
 
-def save_application(document_name: str, application):
+def save_application(document_name: str, member_id: str, application):
     url = "http://100002.pythonanywhere.com/"
     # searchstring="ObjectId"+"("+"'"+"6139bd4969b0c91866e40551"+"'"+")"
     payload = json.dumps({
@@ -93,7 +93,7 @@ def save_application(document_name: str, application):
         "database": "hr_hiring",
         "collection": document_name,
         "document": document_name,
-        "team_member_ID": "4646111",
+        "team_member_ID": member_id,
         "function_ID": "ABCDE",
         "command": "insert",
         "field": {

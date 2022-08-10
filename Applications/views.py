@@ -150,7 +150,8 @@ def delete_job(request, pk):
     return Response("Job successfully deleted")
 
 
-test_strings = ["Hired", "Hire", "Select", "Selected", "shortlisted"]
+test_strings = ["Hired", "Hire", "Select",
+                "Selected", "shortlisted", "teamlead_hire"]
 
 
 @api_view(['POST'])
@@ -170,13 +171,22 @@ def update_application(request, pk):
         pass
     serializer = JobApplicationSerializer(
         instance=job_application, data=request.data)
-    print(serializer)
     if serializer.is_valid():
         serializer.save()
-        try:
-            save_application(serializer.data)
-        except:
-            print("Application not saved to MongoDB Database")
+        if status.lower() == "shortlisted":
+            document_name = "hr_view"
+            save_application(document_name, serializer.data)
+        elif status.lower() == "selected":
+            document_name = "hr_view"
+            save_application(document_name, serializer.data)
+        elif status.lower() == "teamlead_hire":
+            document_name = "teamlead_view"
+            save_application(document_name, serializer.data)
+        elif status.lower() == "hired":
+            document_name = "accounts_view"
+            save_application(document_name, serializer.data)
+        else:
+            print("Application update and its details not saved to MongoDB Database")
     else:
         return Response("Job application updating was not successfull. Try look for possible errors! Ensure you have included the relevant job/job id")
 

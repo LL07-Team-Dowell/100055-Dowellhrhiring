@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.db.models import Q
 from datetime import datetime
-from .dowell_function import save_candidate, save_task, save_application
+from .dowell_function import save_candidate, save_task, save_application, save_to_teamleadview
 
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team, Alert
 from .models import Task
@@ -182,9 +182,10 @@ def update_application(request, pk):
             member_id = "4646111"
             save_application(document_name, member_id, serializer.data)
         elif status.lower() == "teamlead_hire":
-            document_name = "teamlead_view"
+            document_name = "teamelead_view"
             member_id = "1000552"
-            save_application(document_name, member_id, serializer.data)
+            #save_application(document_name, member_id, serializer.data)
+            save_to_teamleadview(serializer.data)
         elif status.lower() == "hired":
             document_name = "accounts_view"
             member_id = "1000551"

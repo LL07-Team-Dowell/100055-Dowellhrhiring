@@ -106,3 +106,25 @@ def save_application(document_name: str, member_id: str, application):
     headers = {'Content-Type': 'application/json'}
     response = requests.request("POST", url, headers=headers, data=payload)
     print(response.text)
+
+
+def save_to_teamleadview(application):
+    url = "http://100002.pythonanywhere.com/"
+    payload = json.dumps({
+        "cluster": "hr_hiring",
+        "database": "hr_hiring",
+        "collection": "teamlead_view",
+        "document": "teamelead_view",
+        "team_member_ID": "1000552",
+        "function_ID": "ABCDE",
+        "command": "insert",
+        "field": {
+            "eventId": get_event_id(),
+            "full_name": application
+        },
+        "update_field": {"order_nos": 21},
+        "platform": "bangalore"
+    })
+    headers = {'Content-Type': 'application/json'}
+    response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)

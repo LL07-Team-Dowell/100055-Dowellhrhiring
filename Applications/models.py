@@ -21,18 +21,13 @@ class Job(models.Model):
     skills = models.CharField(max_length=500, null=False, default="None")
     is_active = models.BooleanField(default=False)
     TYPECHOICES = (
-        ('Freelance', 'Freelance'),
+        ('Freelancer', 'Freelancer'),
         ('Employee', 'Employee'),
         ('Internship', 'Internship'),
+        ('Research Associate', 'Research Associate'),
     )
     typeof = models.CharField(
         max_length=100, choices=TYPECHOICES, default="Freelance")
-    # TIMECHOICES = (
-    #     ('Less than 1 month', 'Less than 1 month'),
-    #     ('1-3 Months', '1-3 Months'),
-    #     ('3-6 Months', '3-6 Months'),
-    #     ('More than 6 Months', 'More than 6 Months'),
-    # )
     time_period = models.CharField(max_length=100, null="False")
     general_terms = models.JSONField(null=True)
     Technical_Specifications = models.JSONField(null=True)
@@ -179,12 +174,14 @@ class Alert(models.Model):
 
 
 class Task(models.Model):
+    _id = models.CharField(max_length=256, null=True)
     user = models.CharField(max_length=256, null=False)
     title = models.CharField(max_length=300, null=False)
     description = models.CharField(max_length=2048, null=True)
     STATUS_CHOICES = (
         ('Complete', 'Complete'),
         ('Incomplete', 'Incomplete'),
+        ('Inprogress', 'Inprogress'),
     )
     status = models.CharField(
         max_length=24, choices=STATUS_CHOICES, default='Incomplete', null=True, blank=True)
@@ -192,4 +189,4 @@ class Task(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.description
+        return self.title

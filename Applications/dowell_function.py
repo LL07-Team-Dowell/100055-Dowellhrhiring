@@ -64,7 +64,6 @@ def save_candidate(candidate):
 
 def save_task(task):
     url = "http://100002.pythonanywhere.com/"
-    # searchstring="ObjectId"+"("+"'"+"6139bd4969b0c91866e40551"+"'"+")"
     payload = json.dumps({
         "cluster": "hr_hiring",
         "database": "hr_hiring",
@@ -82,12 +81,33 @@ def save_task(task):
     })
     headers = {'Content-Type': 'application/json'}
     response = requests.request("POST", url, headers=headers, data=payload)
+    _id = response.text.split(" ")[3].strip("}").strip('"')
+    # print(_id)
+    return _id
+
+
+def update_task(task_id, task_object):
+    url = "http://100002.pythonanywhere.com/"
+    payload = json.dumps({
+        "cluster": "hr_hiring",
+        "database": "hr_hiring",
+        "collection": "tasks",
+        "document": "tasks_reports",
+        "team_member_ID": "10005504",
+        "function_ID": "ABCDE",
+        "command": "update",
+        "field": {"_id": task_id},
+        "update_field": task_object,
+        "platform": "bangalore"
+    })
+    headers = {'Content-Type': 'application/json'}
+    response = requests.request("POST", url, headers=headers, data=payload)
     print(response.text)
+    return response
 
 
 def save_application(document_name: str, member_id: str, application):
     url = "http://100002.pythonanywhere.com/"
-    # searchstring="ObjectId"+"("+"'"+"6139bd4969b0c91866e40551"+"'"+")"
     payload = json.dumps({
         "cluster": "hr_hiring",
         "database": "hr_hiring",

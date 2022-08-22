@@ -304,20 +304,16 @@ def get_tasks(request):
 def add_new_task(request):
     serializer = TaskSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        try:
-            save_task(serializer.data)
-        except:
-            print("Task details not saved to MongoDB Database")
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        mongo_response = save_task(serializer.data)
+    else:
+        print("Task details not saved to MongoDB Database")
+    request.data["_id"] = mongo_response
+    refined_serializer = TaskSerializer(data=request.data)
+    if refined_serializer.is_valid():
+        refined_serializer.save()
+        return Response(refined_serializer.data, status=status.HTTP_201_CREATED)
 
-
-@api_view(['DELETE'])
-def delete_task(request, pk):
-    task = Task.objects.get(id=pk)
-    task.delete()
-    return Response("Task deleted successfully!")
+    return Response(refined_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -331,6 +327,13 @@ def update_task(request, pk):
     else:
         return Response("Task update was not successful. Try look for possible errors!")
     return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def delete_task(request, pk):
+    task = Task.objects.get(id=pk)
+    task.delete()
+    return Response("Task deleted successfully!")
 
 
 @api_view(['POST'])

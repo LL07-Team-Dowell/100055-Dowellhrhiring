@@ -179,6 +179,7 @@ class Alert(models.Model):
 
 
 class Task(models.Model):
+    _id = models.CharField(max_length=256, null=True)
     user = models.CharField(max_length=256, null=False)
     title = models.CharField(max_length=300, null=False)
     description = models.CharField(max_length=2048, null=True)
@@ -192,4 +193,4 @@ class Task(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.description
+        return self.title

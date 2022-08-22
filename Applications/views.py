@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from django.db.models import Q
 from datetime import datetime
 from .dowell_function import save_candidate, save_task, save_application, save_to_teamleadview
+from .dowell_function import update_task
 
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team, Alert
 from .models import Task
@@ -316,16 +317,25 @@ def add_new_task(request):
     return Response(refined_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+task_id = "63031112e91010402286fdd2"
+task_object = {'id': 11, 'user': 'GeorgeTesting(Updated)', 'title': 'This is just an updated task',
+               'description': 'This is just an updated test description', 'status': 'Complete', 'created': '2022-08-22T05:16:07.593504Z', 'updated': '2022-08-22T06:15:58.485360Z'}
+
+
 @api_view(['POST'])
 def update_task(request, pk):
     task = Task.objects.get(id=pk)
-    serializer = TaskSerializer(
-        instance=task, data=request.data)
-    print(serializer)
+    serializer = TaskSerializer(instance=task, data=request.data)
     if serializer.is_valid():
+        # try:
         serializer.save()
-    else:
-        return Response("Task update was not successful. Try look for possible errors!")
+        # task_object = serializer.data
+        # task_object.pop("_id")
+        # task_id = task._id
+        # print(task_object)
+        update_task(task_id, task_object)
+        # except:
+        #     return Response("Task update was not successful. Try look for possible errors!")
     return Response(serializer.data)
 
 

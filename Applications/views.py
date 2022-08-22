@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from django.db.models import Q
 from datetime import datetime
 from .dowell_function import save_candidate, save_task, save_application, save_to_teamleadview
@@ -317,26 +318,38 @@ def add_new_task(request):
     return Response(refined_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-task_id = "63031112e91010402286fdd2"
-task_object = {'id': 11, 'user': 'GeorgeTesting(Updated)', 'title': 'This is just an updated task',
-               'description': 'This is just an updated test description', 'status': 'Complete', 'created': '2022-08-22T05:16:07.593504Z', 'updated': '2022-08-22T06:15:58.485360Z'}
-
-
 @api_view(['POST'])
 def update_task(request, pk):
     task = Task.objects.get(id=pk)
     serializer = TaskSerializer(instance=task, data=request.data)
     if serializer.is_valid():
         # try:
-        serializer.save()
-        # task_object = serializer.data
-        # task_object.pop("_id")
-        # task_id = task._id
-        # print(task_object)
-        update_task(task_id, task_object)
+        # serializer.save()
+        print(task.mongo_id)
+        update_task(task_id=task.mongo_id,
+                    task_object=serializer.validated_data)
         # except:
         #     return Response("Task update was not successful. Try look for possible errors!")
     return Response(serializer.data)
+
+
+# class TasksView(APIView):
+#     def put(self, request, pk, format=None):
+#         # Update and Commit data into database
+#         task = Task.objects.get(id=pk)
+#         request_data = request.data
+#         serializer = TaskSerializer(pk, data=request_data)
+#         if serializer.is_valid():
+#             response_json, status_code = update_task(
+#                 task_id=task.mongo_id, task_object=serializer.validated_data)
+#             return Response(
+#                 response_json,
+#                 status=status_code
+#             )
+#         else:
+#             return Response({"error_msg": "Serializer not valid!"},
+#                             status=status.HTTP_500_INTERNAL_SERVER_ERROR
+#                             )
 
 
 @api_view(['DELETE'])

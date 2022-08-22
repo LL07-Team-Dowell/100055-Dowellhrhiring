@@ -174,7 +174,7 @@ class Alert(models.Model):
 
 
 class Task(models.Model):
-    _id = models.CharField(max_length=256, null=True)
+    mongo_id = models.CharField(max_length=256, null=True)
     user = models.CharField(max_length=256, null=False)
     title = models.CharField(max_length=300, null=False)
     description = models.CharField(max_length=2048, null=True)

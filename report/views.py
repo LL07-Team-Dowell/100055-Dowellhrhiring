@@ -13,7 +13,7 @@ def home(request):
 def main(request):
     return render(request , 'main.html')
 
-    
+
 @csrf_exempt
 def candidate_name(request):
   if request.method == 'POST':
@@ -24,6 +24,24 @@ def candidate_name(request):
         candidate.append(i['application_details']['applicant'])
   return JsonResponse({"candidate":candidate})
 
+@csrf_exempt
+def task_report(request):
+    if request.method == 'POST':
+        candidate_name =request.POST['candidate_name']
+        time_period = request.POST['time_period']
+        response = targeted_population('hr_hiring','tasks',  ['task_details'], time_period)
+        all_tasks = [data['task_details'] for data in response['normal']['data'][0]]
+        def find_candidate_tasks(candidate, task_list):
+            tasks = []
+            for task in task_list:
+                if task['user'] == candidate:
+                    tasks.append(task)
+            if len(tasks) != 0:
+                return tasks
+
+            return tasks
+        candidate_task = find_candidate_tasks(candidate_name, all_tasks)
+        return JsonResponse({"candidate_task":candidate_task})
 
 @csrf_exempt
 def timeperiod(request):

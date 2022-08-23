@@ -40,11 +40,11 @@ def get_event_id():
 
 
 task_id = "63031112e91010402286fdd2"
-task_object = {'id': 11, 'user': 'GeorgeTesting(Updated)', 'title': 'This is just an updated task',
-               'description': 'This is just an updated test description', 'status': 'Complete', 'created': '2022-08-22T05:16:07.593504Z', 'updated': '2022-08-22T06:15:58.485360Z'}
+task_object = {"user": "GeorgeTesting(Updated)", "title": "This is just an updated task",
+               "description": "This is just an updated test description", "status": "Complete"}
 
 
-def update_task(task_id, task_object):
+def update_task(task_id: str, task_object: dict):
     url = "http://100002.pythonanywhere.com/"
     payload = json.dumps({
         "cluster": "hr_hiring",

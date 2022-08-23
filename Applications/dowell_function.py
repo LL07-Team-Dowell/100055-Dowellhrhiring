@@ -87,7 +87,7 @@ def save_task(task):
     return _id
 
 
-def update_task(task_id: str, task_object: dict):
+def update_task_data(task_id: str, task_object: dict):
     url = "http://100002.pythonanywhere.com/"
     payload = json.dumps({
         "cluster": "hr_hiring",

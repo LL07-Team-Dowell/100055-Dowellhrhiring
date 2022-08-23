@@ -1,5 +1,5 @@
 from django.urls import path
-from report.views import home , candidate_count , main ,timeperiod ,candidate_name
+from report.views import home , candidate_count , main ,timeperiod ,candidate_name ,task_report
 from report.views import  hr_report, Teamlead_report, Candidate_report,account_report 
 
 urlpatterns =[
@@ -14,6 +14,7 @@ urlpatterns =[
     path('candidate_count/',candidate_count,name='candidate_count'),
 
     path('candidate_name/',candidate_name,name='candidate_name'),
+    path('task_report/',task_report,name=task_report)
 
 
 ]

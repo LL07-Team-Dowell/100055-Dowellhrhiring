@@ -1,3 +1,4 @@
+from asyncio import streams
 import requests
 import json
 from datetime import datetime
@@ -86,7 +87,7 @@ def save_task(task):
     return _id
 
 
-def update_task(task_id, task_object):
+def update_task_data(task_id: str, task_object: dict):
     url = "http://100002.pythonanywhere.com/"
     payload = json.dumps({
         "cluster": "hr_hiring",
@@ -97,7 +98,7 @@ def update_task(task_id, task_object):
         "function_ID": "ABCDE",
         "command": "update",
         "field": {"_id": task_id},
-        "update_field": task_object,
+        "update_field": {"task": task_object},
         "platform": "bangalore"
     })
     headers = {'Content-Type': 'application/json'}

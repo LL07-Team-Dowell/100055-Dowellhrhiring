@@ -1,9 +1,11 @@
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from django.db.models import Q
 from datetime import datetime
 from .dowell_function import save_candidate, save_task, save_application, save_to_teamleadview
-from .dowell_function import update_task
+from .dowell_function import update_task_data
+import json
 
 from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team, Alert
 from .models import Task
@@ -308,7 +310,7 @@ def add_new_task(request):
         mongo_response = save_task(serializer.data)
     else:
         print("Task details not saved to MongoDB Database")
-    request.data["_id"] = mongo_response
+    request.data["mongo_id"] = mongo_response
     refined_serializer = TaskSerializer(data=request.data)
     if refined_serializer.is_valid():
         refined_serializer.save()
@@ -317,25 +319,25 @@ def add_new_task(request):
     return Response(refined_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-task_id = "63031112e91010402286fdd2"
-task_object = {'id': 11, 'user': 'GeorgeTesting(Updated)', 'title': 'This is just an updated task',
-               'description': 'This is just an updated test description', 'status': 'Complete', 'created': '2022-08-22T05:16:07.593504Z', 'updated': '2022-08-22T06:15:58.485360Z'}
-
-
-@api_view(['POST'])
+@api_view(['POST', 'PUT'])
 def update_task(request, pk):
-    task = Task.objects.get(id=pk)
-    serializer = TaskSerializer(instance=task, data=request.data)
+    try:
+        task = Task.objects.get(id=pk)
+        serializer = TaskSerializer(instance=task, data=request.data)
+    except:
+        return Response({
+            "Error message": f"There is no task with id {pk}!"
+        },
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
     if serializer.is_valid():
-        # try:
-        serializer.save()
-        # task_object = serializer.data
-        # task_object.pop("_id")
-        # task_id = task._id
-        # print(task_object)
-        update_task(task_id, task_object)
-        # except:
-        #     return Response("Task update was not successful. Try look for possible errors!")
+        try:
+            serializer.save()
+            task_object = json.dumps(serializer.validated_data)
+            update_task_data(task_id=task.mongo_id, task_object=task_object)
+            print("Task updated successfully both locally and in MongoDB")
+        except:
+            return Response("Task update was not successful. Try look for possible errors!")
     return Response(serializer.data)
 
 

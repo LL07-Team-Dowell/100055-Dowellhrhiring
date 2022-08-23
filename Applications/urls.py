@@ -1,11 +1,10 @@
 from django.urls import path
-
 from .views import application_view, get_jobs, add_new_job, get_applications, candidateview
-# from .views import UpdateaACStatus,
 from .views import hrview, update_job, delete_job, add_application, project, meeting, teams
 from .views import Jobs_list_Search, Jobs_application_list_Search, get_my_applications, account_view
 from .views import team_lead_view, update_application, delete_application, alerts  # get_user
 from .views import get_tasks, add_new_task, update_task, delete_task
+
 urlpatterns = [
     # jobs
     path('get_jobs/', get_jobs, name='get_jobs'),

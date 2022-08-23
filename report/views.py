@@ -13,6 +13,17 @@ def home(request):
 def main(request):
     return render(request , 'main.html')
 
+    
+@csrf_exempt
+def candidate_name(request):
+  if request.method == 'POST':
+    Time_period = request.POST.get('Timeperiod')
+    response = targeted_population('hr_hiring','accounts_view',  ['application_details'],  Time_period )
+    candidate=[]
+    for i in response['normal']['data'][0]:
+        candidate.append(i['application_details']['applicant'])
+  return JsonResponse({"candidate":candidate})
+
 
 @csrf_exempt
 def timeperiod(request):
@@ -30,7 +41,7 @@ def candidate_count(request):
         candidate.append(i['application_details']['applicant'])
     total_candidate = len(candidate)
     print(total_candidate)
-  return JsonResponse({"candidate":candidate, "total_candidate":total_candidate})
+  return JsonResponse({"total_candidate":total_candidate})
 
 
 @csrf_exempt

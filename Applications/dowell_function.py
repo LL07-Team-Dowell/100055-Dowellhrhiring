@@ -98,7 +98,7 @@ def update_task_data(task_id: str, task_object: dict):
         "function_ID": "ABCDE",
         "command": "update",
         "field": {"_id": task_id},
-        "update_field": {"task": task_object},
+        "update_field": {"task_details": task_object},
         "platform": "bangalore"
     })
     headers = {'Content-Type': 'application/json'}

@@ -4,15 +4,16 @@ from django.contrib.auth import get_user_model
 #User = get_user_model()
 
 
-class Project(models.Model):
-    project_name = models.CharField(max_length=100, null=False)
-    project_leader = models.CharField(max_length=100, null=False)
+class Product(models.Model):
+    product_name = models.CharField(max_length=100, null=False)
+    product_leader = models.CharField(max_length=100, null=False)
+    sub_product = models.CharField(max_length=100, null=True)
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.project_name}-{self.project_leader}'
+        return f'{self.product_name}-{self.product_leader}'
 
 
 class Job(models.Model):
@@ -78,7 +79,7 @@ class Meeting(models.Model):
 class FreelancersAndInterns(models.Model):
 
     freelancer = models.CharField(max_length=100, null=False)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     hr_remarks = models.CharField(max_length=500, null=True)
     tl_remarks = models.CharField(max_length=500, null=True)
     CHOICES = (
@@ -90,7 +91,7 @@ class FreelancersAndInterns(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.freelancer.username}-{self.project}'
+        return f'{self.freelancer.username}-{self.product}'
 
     class Meta:
         verbose_name_plural = 'Freelancers And Interns'
@@ -99,7 +100,7 @@ class FreelancersAndInterns(models.Model):
 class RehiredCandidate(models.Model):
     freelancer = models.CharField(max_length=100, null=False)
     job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     tl_remarks = models.CharField(max_length=500, null=True)
     CHOICES = (
         ('Rehire', 'Rehire'),
@@ -112,7 +113,7 @@ class RehiredCandidate(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.freelancer.freelancer}-{self.project}'
+        return f'{self.freelancer.freelancer}-{self.product}'
 
     class Meta:
         verbose_name_plural = 'Rehired Freelancers'
@@ -121,7 +122,7 @@ class RehiredCandidate(models.Model):
 class RejectedCandidate(models.Model):
     freelancer = models.CharField(max_length=100, null=False)
     job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     tl_remarks = models.CharField(max_length=500, null=True)
     CHOICES = (
         ('Rehire', 'Rehire'),
@@ -134,7 +135,7 @@ class RejectedCandidate(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.freelancer.freelancer}-{self.project}'
+        return f'{self.freelancer.freelancer}-{self.product}'
 
     class Meta:
         verbose_name_plural = 'Rejected Freelancers'
@@ -145,14 +146,14 @@ class Team(models.Model):
     name = models.CharField(max_length=300)
     team_lead = models.CharField(max_length=100, null=False)
     github_url = models.URLField()
-    project = models.ForeignKey(
-        Project, on_delete=models.CASCADE, related_name="project_teams")
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="product_teams")
     discord_link = models.URLField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.name}-{self.team_lead}-{self.project}'
+        return f'{self.name}-{self.team_lead}-{self.product}'
 
 
 class Alert(models.Model):

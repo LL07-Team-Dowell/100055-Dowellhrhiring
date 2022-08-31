@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import application_view, get_jobs, add_new_job, get_applications, candidateview
-from .views import hrview, update_job, delete_job, add_application, project, meeting, teams
+from .views import hrview, update_job, delete_job, add_application, product, meeting, teams
 from .views import Jobs_list_Search, Jobs_application_list_Search, get_my_applications, account_view
 from .views import team_lead_view, update_application, delete_application, alerts  # get_user
 from .views import get_tasks, add_new_task, update_task, delete_task
@@ -12,7 +12,7 @@ urlpatterns = [
     path('update_job/<int:pk>/', update_job, name="update_job"),
     path('delete_job/<int:pk>/', delete_job, name="delete_job"),
 
-    path('project/', project, name="project"),
+    path('product/', product, name="product"),
     path('meeting/', meeting, name="meeting"),
     path('alerts/', alerts, name="alerts"),
     path('teams/', teams, name="teams"),

@@ -79,7 +79,7 @@ class Meeting(models.Model):
 class FreelancersAndInterns(models.Model):
 
     freelancer = models.CharField(max_length=100, null=False)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     hr_remarks = models.CharField(max_length=500, null=True)
     tl_remarks = models.CharField(max_length=500, null=True)
     CHOICES = (
@@ -100,7 +100,7 @@ class FreelancersAndInterns(models.Model):
 class RehiredCandidate(models.Model):
     freelancer = models.CharField(max_length=100, null=False)
     job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     tl_remarks = models.CharField(max_length=500, null=True)
     CHOICES = (
         ('Rehire', 'Rehire'),
@@ -122,7 +122,7 @@ class RehiredCandidate(models.Model):
 class RejectedCandidate(models.Model):
     freelancer = models.CharField(max_length=100, null=False)
     job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     tl_remarks = models.CharField(max_length=500, null=True)
     CHOICES = (
         ('Rehire', 'Rehire'),
@@ -147,7 +147,7 @@ class Team(models.Model):
     team_lead = models.CharField(max_length=100, null=False)
     github_url = models.URLField()
     product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="product_teams")
+        Product, on_delete=models.CASCADE, related_name="product_teams", null=True)
     discord_link = models.URLField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

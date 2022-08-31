@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Job, JobApplication, Meeting, Project, RehiredCandidate
+from .models import Job, JobApplication, Meeting, Product, RehiredCandidate
 from .models import RejectedCandidate, Alert, Task
 from .models import RejectedCandidate, Team
 # import json
@@ -17,9 +17,9 @@ class JobApplicationSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class ProjectSerializer(ModelSerializer):
+class ProductSerializer(ModelSerializer):
     class Meta:
-        model = Project
+        model = Product
         fields = '__all__'
 
 

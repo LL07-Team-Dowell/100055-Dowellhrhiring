@@ -7,10 +7,10 @@ from .dowell_function import save_candidate, save_task, save_application, save_t
 from .dowell_function import update_task_data
 import json
 
-from .models import JobApplication, Job, Meeting, Product, RehiredCandidate, RejectedCandidate, Team, Alert
+from .models import JobApplication, Job, Meeting, Project, RehiredCandidate, RejectedCandidate, Team, Alert
 from .models import Task
 from .serializers import JobApplicationSerializer, JobSerializer, JobApplicationSerializer
-from .serializers import MeetingSerializer, ProductSerializer, RehiredCandidateSerializer
+from .serializers import MeetingSerializer, ProjectSerializer, RehiredCandidateSerializer
 from .serializers import TaskSerializer
 #from accounts.serializers import UserSerializer
 from .serializers import RejectedCandidateSerializer, TeamSerializer, AlertSerializer
@@ -224,14 +224,14 @@ def meeting(request):
 
 
 @api_view(['GET', 'POST'])
-def product(request):
+def project(request):
     if request.method == 'GET':
-        products = product.objects.all()
-        serializer = ProductSerializer(products, many=True)
+        projects = Project.objects.all()
+        serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = ProductSerializer(data=request.data)
+        serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

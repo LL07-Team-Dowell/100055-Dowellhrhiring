@@ -14,7 +14,7 @@ urlpatterns =[
     path('candidate_count/',candidate_count,name='candidate_count'),
 
     path('candidate_name/',candidate_name,name='candidate_name'),
-    path('task_report/',task_report,name=task_report)
+    path('task_report/',task_report,name='task_report')
 
 
 ]

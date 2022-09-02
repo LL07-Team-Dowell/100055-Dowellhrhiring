@@ -78,7 +78,7 @@ class Meeting(models.Model):
 class FreelancersAndInterns(models.Model):
 
     freelancer = models.CharField(max_length=100, null=False)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
     hr_remarks = models.CharField(max_length=500, null=True)
     tl_remarks = models.CharField(max_length=500, null=True)
     CHOICES = (
@@ -99,7 +99,7 @@ class FreelancersAndInterns(models.Model):
 class RehiredCandidate(models.Model):
     freelancer = models.CharField(max_length=100, null=False)
     job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
     tl_remarks = models.CharField(max_length=500, null=True)
     CHOICES = (
         ('Rehire', 'Rehire'),
@@ -121,7 +121,7 @@ class RehiredCandidate(models.Model):
 class RejectedCandidate(models.Model):
     freelancer = models.CharField(max_length=100, null=False)
     job_applied = models.ForeignKey(Job, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
     tl_remarks = models.CharField(max_length=500, null=True)
     CHOICES = (
         ('Rehire', 'Rehire'),
@@ -146,7 +146,7 @@ class Team(models.Model):
     team_lead = models.CharField(max_length=100, null=False)
     github_url = models.URLField()
     project = models.ForeignKey(
-        Project, on_delete=models.CASCADE, related_name="project_teams")
+        Project, on_delete=models.SET_NULL, related_name="project_teams", null=True)
     discord_link = models.URLField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

@@ -63,7 +63,7 @@ def save_candidate(candidate):
     print(response.text)
 
 
-def save_task(task):
+def save_task(task: dict):
     url = "http://100002.pythonanywhere.com/"
     payload = json.dumps({
         "cluster": "hr_hiring",

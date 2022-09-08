@@ -333,7 +333,8 @@ def update_task(request, pk):
     if serializer.is_valid():
         try:
             serializer.save()
-            task_object = json.dumps(serializer.validated_data)
+            #task_object = json.dumps(serializer.validated_data)
+            task_object = serializer.validated_data
             update_task_data(task_id=task.mongo_id, task_object=task_object)
             print("Task updated successfully both locally and in MongoDB")
         except:

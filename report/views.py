@@ -177,3 +177,8 @@ def account_report(request):
         status = find__status(account_detail)
         print('Hired',status)
         return JsonResponse({"status":   status })
+
+@csrf_exempt
+def function_number_name(request):
+    response = targeted_population('github_backup','function', ['product_details'], "life_time")
+    return JsonResponse({"function_number_name":   response })
